@@ -6,14 +6,14 @@ import java.awt.*;
 public class DamierPanel extends JPanel {
 	//tableau de type damier qui permet l'afichage du damier graphique
 	int[][] mat;
-	//diffÈrentes images
-	// S=SÈlectionnÈ	P=qui peut Prendre
+	//diff√©rentes images
+	// S=S√©lectionn√©	P=qui peut Prendre
 	Image noir,blanc,pionN,pionB,pionBS,pionNS,pionBP;
 
 	public DamierPanel(int[][] mat,ClickAction listener){
 		//initialisation des variables
 		this.mat=mat;
-		//permet de gÈrer la gestion des cick dans la classe ClickAction
+		//permet de g√©rer la gestion des cick dans la classe ClickAction
 		addMouseListener(listener);
 		Toolkit kit=Toolkit.getDefaultToolkit();
 		MediaTracker tracker=new MediaTracker(this);
@@ -55,11 +55,11 @@ public class DamierPanel extends JPanel {
 				else if(this.mat[i][j]==-1){
 					g.drawImage(this.pionN,j*Jeu.TAILLEIM,i*Jeu.TAILLEIM,null);
 				}
-//				2 -> pion blanc selectionnÈ
+//				2 -> pion blanc selectionn√©
 				else if(this.mat[i][j]==2){
 					g.drawImage(this.pionBS,j*Jeu.TAILLEIM,i*Jeu.TAILLEIM,null);
 				}
-//				-2 -> pion noir sÈlectionnÈ
+//				-2 -> pion noir s√©lectionn√©
 				else if(this.mat[i][j]==-2){
 					g.drawImage(this.pionNS,j*Jeu.TAILLEIM,i*Jeu.TAILLEIM,null);
 				}
@@ -72,7 +72,7 @@ public class DamierPanel extends JPanel {
 		repaint();
 		
 	}
-	//permet de rÈinitiliser la variable de damier
+	//permet de r√©initiliser la variable de damier
 	public void rafraichir(int[][] mat){
 		this.mat=mat;
 	}

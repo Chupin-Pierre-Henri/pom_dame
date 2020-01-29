@@ -26,7 +26,9 @@ public class Jeu {
     //objet d'ecoute des evenements clicksouris sur le damier
     private ClickAction listener;
     //fenetre du damier graphique
-    private DamierFrame frame;
+	private DamierFrame frame;
+	
+	//TODO on en a pas vraiment besoin
     //variables temporaires permettant de stocker des valeurs de pions qui ont ?t?s selectionner
     //lors de pr?c?dent clicksouris au sein d'un meme tour
     //tour permet de savoir ou on en est au niveau d'un meme tour :
@@ -35,10 +37,15 @@ public class Jeu {
     private int tour=0,iTmp=0,jTmp=0;
     //joueur repr?sente le joueur en cours pour connaitre la maniere d'utiliser la fonction jouer
     //en fonction du joueur humain ou de l'ordinateur. Le premier a jouer est le joueur.
-    //true signifie que c'est le joueur qui joue, false que c'est l'ordinateur
-	private boolean joueur=true;
+	//true signifie que c'est le joueur qui joue, false que c'est l'ordinateur
+	
+	//TODO false pour l'ordi
+	
+	private boolean joueur=false;
 	//finPartie, comme son nom l'indique, dit si la partie est finie ou non
 	private boolean finPartie=false;
+
+	//TODO a modifier pour qu on ait pas des trucs humains
 	//Variables de stockage pour le joueur humain
 	private int[] damierPrendre=new int[1];
 	private int[] indPPrend=new int[4];
@@ -46,6 +53,9 @@ public class Jeu {
 	
 	//Variables de stockage pour le tour de l'ordinateur
 	
+
+	//TODO a voir le nb des pions a manger d'un coup
+
 	//On suppose que l'ordinateur ne mangera pas plus de 10 pions a la fois(...)
 	//profondeur d?finit le nombre de coup que l'ordinateur peut pr?voir
 	//ainsi une profondeur de 5 permet ? l'ordinateur de pr?voir 5 coups a l'avance
