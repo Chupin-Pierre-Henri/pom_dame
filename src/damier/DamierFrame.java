@@ -98,20 +98,12 @@ public class DamierFrame extends JFrame{
 		nbPionA.setText(Integer.toString(entNbPionA));
 	}
 	
-<<<<<<< HEAD:dame3/src/DamierFrame.java
 	//permet de récupere le score du joueur
-=======
-	//permet de r�cupere le score du joueur
->>>>>>> aa3cea3db163ef39e1dbf85142ea4a4b62ef11e4:src/damier/DamierFrame.java
 	public int getScoreJ(){
 		return this.entNbPionJ+3*this.entScoreJ;
 	}
 	
-<<<<<<< HEAD:dame3/src/DamierFrame.java
 	//permet de récupérer le score de l'ordi
-=======
-	//permet de r�cup�rer le score de l'ordi
->>>>>>> aa3cea3db163ef39e1dbf85142ea4a4b62ef11e4:src/damier/DamierFrame.java
 	public int getScoreA(){
 		return this.entNbPionA+3*this.entScoreA;
 	}

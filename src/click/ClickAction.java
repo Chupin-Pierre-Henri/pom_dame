@@ -15,24 +15,14 @@ public class ClickAction extends MouseAdapter {
 		this.jeu=jeu;
 		finPartie=false;
 	}
-<<<<<<< HEAD:dame3/src/ClickAction.java
 	//Cette fonction fait appel a la fonction jouer si elle est appelé(lors d'un click souris sur le damier)
 	//et si la partie n'est pa finie
 	//elle envoie en parametre les coordonées de tableau
-=======
-	//Cette fonction fait appel a la fonction jouer si elle est appel�(lors d'un click souris sur le damier)
-	//et si la partie n'est pa finie
-	//elle envoie en parametre les coordon�es de tableau
->>>>>>> aa3cea3db163ef39e1dbf85142ea4a4b62ef11e4:src/click/ClickAction.java
 	public void mousePressed(MouseEvent event){
 		if(!finPartie) this.jeu.jouer(transcription(event.getY()),transcription(event.getX()));
 	}
 	
-<<<<<<< HEAD:dame3/src/ClickAction.java
 	//Cette fonction permet de passer des coordonnées graphiques ( sur le panel) en coordonées de tableau
-=======
-	//Cette fonction permet de passer des coordonn�es graphiques ( sur le panel) en coordon�es de tableau
->>>>>>> aa3cea3db163ef39e1dbf85142ea4a4b62ef11e4:src/click/ClickAction.java
 	public int transcription(int i){
 		return (i-(i% Jeu.TAILLEIM))/ Jeu.TAILLEIM;
 	}
