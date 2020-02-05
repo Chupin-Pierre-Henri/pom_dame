@@ -31,8 +31,7 @@ public class Jeu {
     private ClickAction listener;
     //fenetre du damier graphique
 	private DamierFrame frame;
-	
-	//TODO on en a pas vraiment besoin
+
     //variables temporaires permettant de stocker des valeurs de pions qui ont ?t?s selectionner
     //lors de pr?c?dent clicksouris au sein d'un meme tour
     //tour permet de savoir ou on en est au niveau d'un meme tour :
@@ -43,22 +42,16 @@ public class Jeu {
     //en fonction du joueur humain ou de l'ordinateur. Le premier a jouer est le joueur.
 	//true signifie que c'est le joueur qui joue, false que c'est l'ordinateur
 	
-	//TODO false pour l'ordi
-	
-	private boolean joueur=false;
+	private boolean joueur=true;
 	//finPartie, comme son nom l'indique, dit si la partie est finie ou non
 	private boolean finPartie=false;
 
-	//TODO a modifier pour qu on ait pas des trucs humains
 	//Variables de stockage pour le joueur humain
 	private int[] damierPrendre=new int[1];
 	private int[] indPPrend=new int[4];
 	private int[] pionPrendre=new int[1];
 	
 	//Variables de stockage pour le tour de l'ordinateur
-	
-
-	//TODO a voir le nb des pions a manger d'un coup
 
 	//On suppose que l'ordinateur ne mangera pas plus de 10 pions a la fois(...)
 	//profondeur d?finit le nombre de coup que l'ordinateur peut pr?voir
@@ -399,7 +392,13 @@ public class Jeu {
 	//deplacement:variable permettant de stocker les premiers coups et qui est remplac?e chaque fois qu'um meilleur premier
 	//				coup est trouv? (taille=43 soit 10 prises possibles pour 1 coup)
 	
-	
+
+    public void debut(boolean joueur){
+	    while (!finPartie){
+            //jouerOrdi()
+        }
+    }
+
 	public int jouerOrdi(int valeur,boolean joueur,int[][] tab,int profondeur,int[] temp,int indtemp,int[] deplacement,int appel){
 		
 		int pJ,pA;int[] nbsouffler;int valeurtemp,valtemp;

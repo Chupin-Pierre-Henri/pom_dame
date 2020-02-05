@@ -4,7 +4,6 @@ package version1;
 public class Jeu {
     public Plateau damier;
     public DamierFrame frame;
-    public boolean joueur;
 
     public Jeu()throws InterruptedException {
         damier = new Plateau();
@@ -18,15 +17,15 @@ public class Jeu {
     public void jouer()throws InterruptedException{
 
         while (!damier.isFinPartie()){
-
             damier.strategieNaive(2);
-            frame.rafraichir(damier);
+            //frame.rafraichir(damier);
             Thread.sleep(2000);
             damier.strategieNaive(-2);
-            frame.rafraichir(damier);
+            //frame.rafraichir(damier);
             Thread.sleep(2000);
             frame.show();
         }
+        finPartie();
     }
 
     public static void main(String[] args) throws InterruptedException {

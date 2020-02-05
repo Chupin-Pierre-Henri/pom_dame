@@ -7,23 +7,12 @@ public class Plateau {
     public static final int NBCASES=10;
     private boolean finPartie = false;
     private Case cases[][];
+    private int coupsRestants = 2;
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
 
     public Plateau(){
         cases = new Case[10][10];
         initialiserJeu();
-    }
-
-    public Case getCase(int i, int j){
-        return cases[i][j];
-    }
-
-    public boolean isFinPartie() {
-        return finPartie;
-    }
-
-    public void setCase(Case c){
-        cases[c.getLigne()][c.getColonne()] = c;
     }
 
     public void initialiserJeu() {
@@ -73,6 +62,7 @@ public class Plateau {
             ((CaseBlanche)cases[iEnemi][jEnemi]).getPiece().setVivante(false);
             pieces.remove(((CaseBlanche)cases[iEnemi][jEnemi]).getPiece());
             ((CaseBlanche)cases[iEnemi][jEnemi]).setPiece(null);
+            ((CaseBlanche)cases[iEnemi- iIncrem][jEnemi - jIncrem]).setPiece(null);
             ((CaseBlanche)cases[iNew][jNew]).setPiece(p);
         }while(peutPrendre(p.getCouleur(), iNew, jNew,iNew+iIncrem, jNew+jIncrem));
     }
@@ -87,56 +77,142 @@ public class Plateau {
             return false;
     }
 
-    public void strategieNaive(int joueur){
+    public void CoupObligatoire(ArrayList<Piece> piecesPrioritaires, int joueur){
+        ArrayList<Piece> piecesVisees = new ArrayList<Piece>();
         Iterator it = pieces.iterator();
-        while (it.hasNext()){
-            Piece p = (Piece)it.next();
+
+        while (it.hasNext() && coupsRestants > 0) {
+            Piece p = (Piece) it.next();
             int i = p.getPosition().getLigne();
             int j = p.getPosition().getColonne();
 
-            if (p.getCouleur() == joueur && joueur == 2){
-
-                if (i < NBCASES-1){
-
-                    if (i<NBCASES-2 && j<NBCASES-2 && peutPrendre(p.getCouleur(), i+1, j+1, i+2, j+2)){
-                        prendsPiece(p, i+1, j+1, i+2, j+2,1,1);
-                        return;
-                    }else if (j<NBCASES-1 && ((CaseBlanche)cases[i+1][j+1]).isLibre()){
-                        deplacePiece(p, i, j, i+1, j+1);
-                        return;
-                    }
-
-                    if (j>1 && i<NBCASES-2 && peutPrendre(p.getCouleur(), i+1, j-1, i+2, j-2)){
-                        prendsPiece(p, i+1, j-1, i+2, j-2,1,-1);
-                        return;
-                    }else if(j>0 && ((CaseBlanche)cases[i+1][j-1]).isLibre()){
-                        deplacePiece(p, i, j, i+1, j-1);
-                        return;
-                    }
-
+            if (joueur == p.getCouleur()&& p.getCouleur() == 2){
+                if (i<NBCASES-2 && j<NBCASES-2 && peutPrendre(p.getCouleur(),i+1,j+1,i+2, j+2)
+                        && !piecesVisees.contains((((CaseBlanche)cases[i+1][j+1]).getPiece()))){
+                    piecesPrioritaires.add(p);
+                    piecesVisees.add(((CaseBlanche)cases[i+1][j+1]).getPiece());
+                    coupsRestants--;
+                    //prendsPiece(p,i+1,j+1,i+2, j+2,1,1);
+                }else if (j>1 && i<NBCASES-2 && peutPrendre(p.getCouleur(),i+1,j-1,i+2, j-2)
+                        && !piecesVisees.contains(((CaseBlanche)cases[i+1][j-1]).getPiece())){
+                    piecesPrioritaires.add(p);
+                    piecesVisees.add(((CaseBlanche)cases[i+1][j-1]).getPiece());
+                    coupsRestants--;
+                    //prendsPiece(p,i+1,j-1,i+2, j-2,1,-1);
                 }
+            } else if (joueur == p.getCouleur()&& p.getCouleur() == -2){
+                if (i>1 && j<NBCASES-2 && peutPrendre(p.getCouleur(),i-1, j+1, i-2, j+2)
+                        && !piecesVisees.contains(((CaseBlanche)cases[i-1][j+1]).getPiece())){
+                    piecesPrioritaires.add(p);
+                    piecesVisees.add(((CaseBlanche)cases[i-1][j+1]).getPiece());
+                    coupsRestants--;
+                    //prendsPiece(p, i-1, j+1, i-2, j+2,-1,1);
+                }else if (i>1 && j>1 && peutPrendre(p.getCouleur(),i-1, j-1, i-2, j-2)
+                        && !piecesVisees.contains(((CaseBlanche)cases[i-1][j-1]).getPiece())){
+                    piecesPrioritaires.add(p);
+                    piecesVisees.add(((CaseBlanche)cases[i-1][j-1]).getPiece());
+                    coupsRestants--;
+                    //prendsPiece(p, i-1, j-1, i-2, j-2,-1,-1);
+                }
+            }
+        }
 
-            }else if (p.getCouleur() == joueur && joueur == -2){
-                if (i>0){
+        Iterator it1 = piecesPrioritaires.iterator();
+        while (it1.hasNext()){
+            Piece p = (Piece) it1.next();
+            int i = p.getPosition().getLigne();
+            int j = p.getPosition().getColonne();
 
-                    if (i>1 && j<NBCASES-2 && peutPrendre(p.getCouleur(), i-1, j+1, i-2, j+2)){
-                        prendsPiece(p, i-1, j+1, i-2, j+2,-1,1);
-                        return;
-                    }else if (j<NBCASES-1 && ((CaseBlanche)cases[i-1][j+1]).isLibre()){
-                        deplacePiece(p, i, j, i-1, j+1);
-                        return;
-                    }
-
-                    if (i>1 && j>1 && peutPrendre(p.getCouleur(), i-1, j-1, i-2, j-2)){
-                        prendsPiece(p, i-1, j-1, i-2, j-2,-1,-1);
-                        return;
-                    }else if(j>0 && ((CaseBlanche)cases[i-1][j-1]).isLibre()){
-                        deplacePiece(p, i, j, i-1, j-1);
-                        return;
-                    }
-
+            if (joueur == p.getCouleur()&& p.getCouleur() == 2){
+                if (i<NBCASES-2 && j<NBCASES-2 && peutPrendre(p.getCouleur(),i+1,j+1,i+2, j+2)){
+                    prendsPiece(p,i+1,j+1,i+2, j+2,1,1);
+                    //return;
+                }else if (j>1 && i<NBCASES-2 && peutPrendre(p.getCouleur(),i+1,j-1,i+2, j-2)){
+                    prendsPiece(p,i+1,j-1,i+2, j-2,1,-1);
+                    //return;
+                }
+            } else if (i>1 && j<NBCASES-2 && joueur == p.getCouleur()&& p.getCouleur() == -2){
+                if (peutPrendre(p.getCouleur(),i-1, j+1, i-2, j+2)){
+                    prendsPiece(p, i-1, j+1, i-2, j+2,-1,1);
+                    //return;
+                }else if (i>1 && j>1 && peutPrendre(p.getCouleur(),i-1, j-1, i-2, j-2)){
+                    prendsPiece(p, i-1, j-1, i-2, j-2,-1,-1);
+                    //return;
                 }
             }
         }
     }
+
+    public void strategieNaive(int joueur){
+
+        ArrayList<Piece> piecesPrioritaires = new ArrayList<Piece>();
+
+        CoupObligatoire(piecesPrioritaires, joueur);
+        Iterator it = pieces.iterator();
+
+        while (it.hasNext() && coupsRestants>0){
+            Piece p = (Piece)it.next();
+            int i = p.getPosition().getLigne();
+            int j = p.getPosition().getColonne();
+
+            if (!piecesPrioritaires.contains(p)){
+                if (p.getCouleur() == joueur && joueur == 2){
+
+                    if (i < NBCASES-1){
+
+                        if (i<NBCASES-2 && j<NBCASES-2 && peutPrendre(p.getCouleur(), i+1, j+1, i+2, j+2)){
+                            prendsPiece(p, i+1, j+1, i+2, j+2,1,1);
+                            coupsRestants--;
+                        }else if (j<NBCASES-1 && ((CaseBlanche)cases[i+1][j+1]).isLibre()){
+                            deplacePiece(p, i, j, i+1, j+1);
+                            coupsRestants--;
+                        }else if (j>1 && i<NBCASES-2 && peutPrendre(p.getCouleur(), i+1, j-1, i+2, j-2)){
+                            prendsPiece(p, i+1, j-1, i+2, j-2,1,-1);
+                            coupsRestants--;
+                        }else if(j>0 && ((CaseBlanche)cases[i+1][j-1]).isLibre()){
+                            deplacePiece(p, i, j, i+1, j-1);
+                            coupsRestants--;
+                        }
+                    }
+
+                }else if (p.getCouleur() == joueur && joueur == -2){
+                    if (i>0){
+
+                        if (i>1 && j<NBCASES-2 && peutPrendre(p.getCouleur(), i-1, j+1, i-2, j+2)){
+                            prendsPiece(p, i-1, j+1, i-2, j+2,-1,1);
+                            coupsRestants--;
+                        }else if (j<NBCASES-1 && ((CaseBlanche)cases[i-1][j+1]).isLibre()){
+                            deplacePiece(p, i, j, i-1, j+1);
+                            coupsRestants--;
+                        }else if (i>1 && j>1 && peutPrendre(p.getCouleur(), i-1, j-1, i-2, j-2)){
+                            prendsPiece(p, i-1, j-1, i-2, j-2,-1,-1);
+                            coupsRestants--;
+                        }else if(j>0 && ((CaseBlanche)cases[i-1][j-1]).isLibre()){
+                            deplacePiece(p, i, j, i-1, j-1);
+                            coupsRestants--;
+                        }
+
+                    }
+                }
+            }
+        }
+        setCoupsRestants(2);
+    }
+
+    public Case getCase(int i, int j){
+        return cases[i][j];
+    }
+
+    public void setCoupsRestants(int coupsRestants) {
+        this.coupsRestants = coupsRestants;
+    }
+
+    public boolean isFinPartie() {
+        return finPartie;
+    }
+
+    public void setCase(Case c){
+        cases[c.getLigne()][c.getColonne()] = c;
+    }
+
 }
