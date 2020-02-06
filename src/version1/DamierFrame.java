@@ -12,9 +12,9 @@ public class DamierFrame extends JFrame{
     //damier
     DamierPanel damPanel;
     //fenetres des scores
-    JTextField scoreJ,scoreA,nbPionJ,nbPionA;
+    JTextField scoreJ1,scoreJ2,nbPionJ1,nbPionJ2;
     //scores
-    int entScoreJ,entScoreA,entNbPionJ,entNbPionA;
+    int entScoreJ1,entScoreJ2,entNbPionJ1,entNbPionJ2;
 
     public DamierFrame(Plateau damier) {
         super();
@@ -31,39 +31,39 @@ public class DamierFrame extends JFrame{
         JTextField text1=new JTextField("Score blancs :");
         text1.setEditable(false);
 
-        scoreJ=new JTextField("0");
-        scoreJ.setEditable(false);
-        entScoreJ=0;
+        scoreJ1=new JTextField("0");
+        scoreJ1.setEditable(false);
+        entScoreJ1=0;
 
         JTextField text2=new JTextField("Score noirs :");
         text2.setEditable(false);
 
-        scoreA=new JTextField("0");
-        scoreA.setEditable(false);
-        entScoreA=0;
+        scoreJ2=new JTextField("0");
+        scoreJ2.setEditable(false);
+        entScoreJ2=0;
 
         JTextField text3=new JTextField("Pions blancs :");
         text3.setEditable(false);
 
-        nbPionJ=new JTextField("20");
-        nbPionJ.setEditable(false);
-        entNbPionJ=20;
+        nbPionJ1=new JTextField("20");
+        nbPionJ1.setEditable(false);
+        entNbPionJ1=20;
 
         JTextField text4=new JTextField("Pions noirs :");
         text4.setEditable(false);
 
-        nbPionA=new JTextField("20");
-        nbPionA.setEditable(false);
-        entNbPionA=20;
+        nbPionJ2=new JTextField("20");
+        nbPionJ2.setEditable(false);
+        entNbPionJ2=20;
 
         scoreBox.add(text1);
-        scoreBox.add(scoreJ);
+        scoreBox.add(scoreJ1);
         scoreBox.add(text2);
-        scoreBox.add(scoreA);
+        scoreBox.add(scoreJ2);
         scoreBox.add(text3);
-        scoreBox.add(nbPionJ);
+        scoreBox.add(nbPionJ1);
         scoreBox.add(text4);
-        scoreBox.add(nbPionA);
+        scoreBox.add(nbPionJ2);
 
         //initialisation finale de la fenetre
         panel.add(scoreBox,BorderLayout.SOUTH);
@@ -73,37 +73,37 @@ public class DamierFrame extends JFrame{
     }
 
     //enleve un point au score du joueur
-    public void changeScoreJ(){
-        this.entScoreJ+=1;
-        scoreJ.setText(Integer.toString(entScoreJ));
+    public void changeScoreJ1(){
+        this.entScoreJ1+=1;
+        scoreJ1.setText(Integer.toString(entScoreJ1));
     }
 
     //enleve un point au score de l'ordi
-    public void changeScoreA(){
-        this.entScoreA+=1;
-        scoreA.setText(Integer.toString(entScoreA));
+    public void changeScoreJ2(){
+        this.entScoreJ2+=1;
+        scoreJ2.setText(Integer.toString(entScoreJ2));
     }
 
     //enleve un pion au joueur
-    public void changeNbPionJ(){
-        this.entNbPionJ-=1;
-        nbPionJ.setText(Integer.toString(entNbPionJ));
+    public void changeNbPionJ1(){
+        this.entNbPionJ1-=1;
+        nbPionJ1.setText(Integer.toString(entNbPionJ1));
     }
 
     //enleve un pion a l'ordi
-    public void changeNbPionA(){
-        this.entNbPionA-=1;
-        nbPionA.setText(Integer.toString(entNbPionA));
+    public void changeNbPionJ2(){
+        this.entNbPionJ2-=1;
+        nbPionJ2.setText(Integer.toString(entNbPionJ2));
     }
 
     //permet de récupere le score du joueur
-    public int getScoreJ(){
-        return this.entNbPionJ+3*this.entScoreJ;
+    public int getScoreJ1(){
+        return this.entNbPionJ1+3*this.entScoreJ1;
     }
 
     //permet de récupérer le score de l'ordi
-    public int getScoreA(){
-        return this.entNbPionA+3*this.entScoreA;
+    public int getScoreJ2(){
+        return this.entNbPionJ2+3*this.entScoreJ2;
     }
 
     //pour rafraichir le damier avec le nouveau tableau
