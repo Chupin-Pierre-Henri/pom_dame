@@ -5,6 +5,7 @@ import java.util.Random;
 public class Piece {
     private Case position;
     private boolean vivante;
+    private boolean dames;
     //2 pour blanc, -2 pour noir
     private int couleur;
 
@@ -15,6 +16,7 @@ public class Piece {
         position = pos;
         couleur = coul;
         vivante = true;
+        dames = false;
 
         Random rand = new Random();
         int n = rand.nextInt(2);
@@ -54,6 +56,14 @@ public class Piece {
 
     public int getDirection() {
         return direction;
+    }
+
+    public boolean isDame(){
+        return dames;
+    }
+
+    public void setDames(boolean dames){
+        this.dames = dames;
     }
 
 }
