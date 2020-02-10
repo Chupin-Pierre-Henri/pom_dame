@@ -244,7 +244,6 @@ public class Plateau {
     }
 
     /**
-     *
      * @param i la ligne i de notre pièce
      * @param j la colone j de notre pièce
      * @param x le nombre de case qu'on veut ce déplacer
