@@ -71,7 +71,7 @@ public class DamierFrame extends JFrame{
         getContentPane().add(panel);
 
     }
-
+    //TODO faudrait pouvoir changer le score en choisissant le score à ajouter ou enlever pour pouvoir à chaque instant évéluer le plateau
     //enleve un point au score du joueur
     public void changeScoreJ1(){
         this.entScoreJ1+=1;

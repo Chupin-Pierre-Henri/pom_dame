@@ -58,10 +58,26 @@ public class Plateau {
         //crée la dame en si arrivé sur la dernière ligne ou première ligne en fonction du camp du piont
         if(p.getCouleur()==2 && p.getPosition().getLigne()==9){
             p.setDames(true);
+            pieces.remove(((CaseBlanche)cases[iNew][jNew]).getPiece());
+            ((CaseBlanche)cases[iNew][jNew]).setPiece(null);
+            ((CaseBlanche)cases[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
+            Case c = new CaseBlanche(iNew,jNew);
+            Piece d = new Pion(c,2);
+            pieces.add(p);
+            ((CaseBlanche) c).setPiece(p);
+            setCase(c);
             //System.out.println("new dames blanche" + p.getPosition().getLigne());
         }
         else if(p.getCouleur()==-2 && p.getPosition().getLigne()==0){
             p.setDames(true);
+            pieces.remove(((CaseBlanche)cases[iNew][jNew]).getPiece());
+            ((CaseBlanche)cases[iNew][jNew]).setPiece(null);
+            ((CaseBlanche)cases[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
+            Case c = new CaseBlanche(iNew,jNew);
+            Piece d = new Pion(c,-2);
+            pieces.add(p);
+            ((CaseBlanche) c).setPiece(p);
+            setCase(c);
             //System.out.println("new dames noir" + p.getPosition().getLigne());
         }
     }
