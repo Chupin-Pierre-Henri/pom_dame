@@ -104,21 +104,8 @@ public class Plateau {
     public void verificationDautresCoups(Piece p){
         int i = p.getPosition().getLigne();
         int j = p.getPosition().getColonne();
-        if (p.getCouleur() == 2){
-            if (i<NBCASES-2 && j<NBCASES-2 && peutPrendre(p.getCouleur(),i+1,j+1,i+2, j+2)){
-                prendsPiece(p,i+1,j+1,i+2, j+2);
-            }else if (j>1 && i<NBCASES-2 && peutPrendre(p.getCouleur(),i+1,j-1,i+2, j-2)){
-                prendsPiece(p,i+1,j-1,i+2, j-2);
-            }
-        } else if (p.getCouleur() == -2){
-            if (i>1 && j<NBCASES-2 && peutPrendre(p.getCouleur(),i-1, j+1, i-2, j+2)){
-                prendsPiece(p,i-1, j+1, i-2, j+2);
-            }else if (i>1 && j>1 && peutPrendre(p.getCouleur(),i-1, j-1, i-2, j-2)){
-                prendsPiece(p,i-1, j-1, i-2, j-2);
-            }
-        }
-
-
+            //haut droite
+            deplacement_piece(p, i, j);
     }
 
     public boolean peutPrendre(int coul, int iEnemi, int jEnemi,int iNew, int jNew){
@@ -146,25 +133,30 @@ public class Plateau {
 
             //on fait la différence entre les pièces classique et les dames
             if (!p.isDame()) {
-                if (joueur == p.getCouleur() && p.getCouleur() == 2) {
-                    if (i < NBCASES - 2 && j < NBCASES - 2 && peutPrendre(p.getCouleur(), i + 1, j + 1, i + 2, j + 2)
+                if (joueur == p.getCouleur()) {
+                    //en haut à droite
+                    if (posPossible(i,j,1,1,1) && peutPrendre(p.getCouleur(), i + 1, j + 1, i + 2, j + 2)
                         && !piecesVisees.contains((((CaseBlanche) cases[i + 1][j + 1]).getPiece()))) {
                         piecesPrioritaires.add(p);
                         piecesVisees.add(((CaseBlanche) cases[i + 1][j + 1]).getPiece());
                         coupsRestants--;
-                    } else if (j > 1 && i < NBCASES - 2 && peutPrendre(p.getCouleur(), i + 1, j - 1, i + 2, j - 2)
+                    }
+                    //en haut à gauche
+                    else if (posPossible(i,j,1,2,1) && peutPrendre(p.getCouleur(), i + 1, j - 1, i + 2, j - 2)
                         && !piecesVisees.contains(((CaseBlanche) cases[i + 1][j - 1]).getPiece())) {
                         piecesPrioritaires.add(p);
                         piecesVisees.add(((CaseBlanche) cases[i + 1][j - 1]).getPiece());
                         coupsRestants--;
                     }
-                } else if (joueur == p.getCouleur() && p.getCouleur() == -2) {
-                    if (i > 1 && j < NBCASES - 2 && peutPrendre(p.getCouleur(), i - 1, j + 1, i - 2, j + 2)
+                    //en bas à droite
+                    else if (posPossible(i,j,1,3,1)  && peutPrendre(p.getCouleur(), i - 1, j + 1, i - 2, j + 2)
                         && !piecesVisees.contains(((CaseBlanche) cases[i - 1][j + 1]).getPiece())) {
                         piecesPrioritaires.add(p);
                         piecesVisees.add(((CaseBlanche) cases[i - 1][j + 1]).getPiece());
                         coupsRestants--;
-                    } else if (i > 1 && j > 1 && peutPrendre(p.getCouleur(), i - 1, j - 1, i - 2, j - 2)
+                    }
+                    //en bas à gauche
+                    else if (posPossible(i,j,1,4,1) && peutPrendre(p.getCouleur(), i - 1, j - 1, i - 2, j - 2)
                         && !piecesVisees.contains(((CaseBlanche) cases[i - 1][j - 1]).getPiece())) {
                         piecesPrioritaires.add(p);
                         piecesVisees.add(((CaseBlanche) cases[i - 1][j - 1]).getPiece());
@@ -173,7 +165,7 @@ public class Plateau {
                 }
             }
             else{
-                if (joueur == p.getCouleur() && p.getCouleur() == 2) {
+                if (joueur == p.getCouleur()) {
                     for (int x=1; x<3; x++) {
                         //le coté haut droite +i et +j
                         if (posPossible(i,j,x,1,1) && peutPrendre(p.getCouleur(), i + x, j + x, i + (x+1), j + (x+1))
@@ -218,18 +210,9 @@ public class Plateau {
             int i = p.getPosition().getLigne();
             int j = p.getPosition().getColonne();
             if (!p.isDame()) {
-                if (joueur == p.getCouleur() && p.getCouleur() == 2) {
-                    if (i < NBCASES - 2 && j < NBCASES - 2 && peutPrendre(p.getCouleur(), i + 1, j + 1, i + 2, j + 2)) {
-                        prendsPiece(p, i + 1, j + 1, i + 2, j + 2);
-                    } else if (j > 1 && i < NBCASES - 2 && peutPrendre(p.getCouleur(), i + 1, j - 1, i + 2, j - 2)) {
-                        prendsPiece(p, i + 1, j - 1, i + 2, j - 2);
-                    }
-                } else if (joueur == p.getCouleur() && p.getCouleur() == -2) {
-                    if (i > 1 && j < NBCASES - 2 && peutPrendre(p.getCouleur(), i - 1, j + 1, i - 2, j + 2)) {
-                        prendsPiece(p, i - 1, j + 1, i - 2, j + 2);
-                    } else if (i > 1 && j > 1 && peutPrendre(p.getCouleur(), i - 1, j - 1, i - 2, j - 2)) {
-                        prendsPiece(p, i - 1, j - 1, i - 2, j - 2);
-                    }
+                if (joueur == p.getCouleur()) {
+                    //le coté haut droite +i et +j
+                    deplacement_piece(p, i, j);
                 }
             }
             else{
@@ -259,6 +242,24 @@ public class Plateau {
         }
     }
 
+    private void deplacement_piece(Piece p, int i, int j) {
+        if (posPossible(i,j,1,1,1) && peutPrendre(p.getCouleur(), i + 1, j + 1, i + 2, j + 2)) {
+            prendsPiece(p, i + 1, j + 1, i + 2, j + 2);
+        }
+        //le coté haut gauche +i et -j
+        else if (posPossible(i,j,1,2,1) && peutPrendre(p.getCouleur(), i + 1, j - 1, i + 2, j - 2)) {
+            prendsPiece(p, i + 1, j - 1, i + 2, j - 2);
+        }
+        //le coté bas droite -i et +j
+        else if (posPossible(i,j,1,3,1) && peutPrendre(p.getCouleur(), i - 1, j + 1, i - 2, j + 2)) {
+            prendsPiece(p, i - 1, j + 1, i - 2, j + 2);
+        }
+        //le coté bas gauche -i et -j
+        else if (posPossible(i,j,1,4,1) && peutPrendre(p.getCouleur(), i - 1, j - 1, i - 2, j - 2)) {
+            prendsPiece(p, i - 1, j - 1, i - 2, j - 2);
+        }
+    }
+
     /**
      * @param i la ligne i de notre pièce
      * @param j la colone j de notre pièce
@@ -270,11 +271,11 @@ public class Plateau {
     public boolean posPossible(int i, int j, int x, int pos, int prise){
         if(pos ==1 && i+x+prise<NBCASES && j+x+prise<NBCASES){
             return true;
-        } else if(pos ==2 && i+x+prise<NBCASES && j-x-prise<NBCASES){
+        } else if(pos ==2 && i+x+prise<NBCASES && j-x-prise>=0){
             return true;
-        } else if(pos ==3 && i-x-prise<NBCASES && j+x+prise<NBCASES){
+        } else if(pos ==3 && i-x-prise>=0 && j+x+prise<NBCASES){
             return true;
-        } else if(pos ==4 && i-x-prise<NBCASES && j-x-prise<NBCASES){
+        } else if(pos ==4 && i-x-prise>=0 && j-x-prise>=0){
             return true;
         }
         return false;
