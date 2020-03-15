@@ -1,37 +1,33 @@
 package version1;
 
-import java.util.Random;
-
 public class Piece {
     private Case position;
-    private boolean vivante;
     private boolean dames;
+    private int pionsManges;
     //2 pour blanc, -2 pour noir
     private int couleur;
-
-    //-1 pour gauche, 1 pour droite
-    private int direction;
 
     public Piece(Case pos, int coul){
         position = pos;
         couleur = coul;
-        vivante = true;
         dames = false;
+        pionsManges = 0;
 
-        Random rand = new Random();
-        int n = rand.nextInt(2);
-        if(n == 0)
-            direction = -1;
-        else
-            direction = n;
     }
 
-    public boolean isVivante() {
-        return vivante;
+    public Piece(Piece p){
+        position = new Case(p.position.getLigne(), p.position.getColonne());
+        couleur = p.couleur;
+        dames = p.dames;
+        pionsManges = p.pionsManges;
     }
 
-    public void setVivante(boolean vivante) {
-        this.vivante = vivante;
+    public void copiePiece(Piece p){
+        position.setLigne(p.getPosition().getLigne());
+        position.setColonne(p.getPosition().getColonne());
+        couleur = p.couleur;
+        dames = p.dames;
+        pionsManges = p.pionsManges;
     }
 
     public Case getPosition() {
@@ -50,12 +46,16 @@ public class Piece {
         this.couleur = couleur;
     }
 
-    public void setDirection(int direction) {
-        this.direction = direction;
+    public void addPionsManges() {
+        this.pionsManges++;
     }
 
-    public int getDirection() {
-        return direction;
+    public void resetPionsManges() {
+        this.pionsManges = 0;
+    }
+
+    public int getPionsManges() {
+        return pionsManges;
     }
 
     public boolean isDame(){
