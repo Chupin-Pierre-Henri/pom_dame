@@ -426,22 +426,41 @@ Nb de ennemis pris:
         return false;
     }
 
+    public void change_Pos_Tmp(Piece p, int iNew, int jNew){
 
-    public  void choixPieceADeplacer(ArrayList<Piece> piecesPrioritaires, ArrayList<Piece> piecesRestantes, int joueur, boolean cherche_risque){
+        ((CaseBlanche)casesTmp[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
+        ((CaseBlanche)casesTmp[iNew][jNew]).setPiece(pieceTmp);
+    }
+
+
+    public  void choixPieceADeplacer(ArrayList<Piece> piecesPrioritaires, ArrayList<Piece> piecesRestantes, int joueur, boolean cherche_risque, int pionsABouger){
         Iterator it = piecesRestantes.iterator();
+        if(coupsRestants == pionsABouger && !cherche_risque) {
+            coupsRestants =1;
+        }
+        else if (!cherche_risque){
+            coupsRestants = 0;
+        }
+        int lol;
+        if(joueur == -2 && cherche_risque){
+            lol=0;
+        }
         while (it.hasNext() && coupsRestants>0) {
             Piece p = (Piece) it.next();
             int i = p.getPosition().getLigne();
             int j = p.getPosition().getColonne();
 
             HashMap<Integer, Integer> possibilites = new HashMap<Integer, Integer>();
-
             if (p.getCouleur() == joueur){
                 if(!p.isDame() ) {
                     if (p.getCouleur() == joueur && joueur == 2) {
                         //cas 1
                         if (j < NBCASES - 1 && i < NBCASES - 1 && ((CaseBlanche) cases[i + 1][j + 1]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i+1, j+1, p.getCouleur(),4, true)){
+                            pieceTmp = new Piece(p);
+
+                            cloneCases(casesTmp, cases);
+                            change_Pos_Tmp(p, i+1, j+1);
+                            if (cherche_risque && !coup_risquer(i+1, j+1, p.getCouleur(),4, true,0)){
                                 possibilites.put(1,1);
                             }
                             else if (!cherche_risque){
@@ -450,7 +469,11 @@ Nb de ennemis pris:
                         }
                         //cas 2
                         if (j > 0 && i < NBCASES - 1 && ((CaseBlanche) cases[i + 1][j - 1]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i+1, j-1, p.getCouleur(),3,true)){
+                            pieceTmp = new Piece(p);
+
+                            cloneCases(casesTmp, cases);
+                            change_Pos_Tmp(p, i+1, j-1);
+                            if (cherche_risque && !coup_risquer(i+1, j-1, p.getCouleur(),3,true,0)){
                                 possibilites.put(2,1);
                             }
                             else if (!cherche_risque){
@@ -460,7 +483,11 @@ Nb de ennemis pris:
                     } else if (p.getCouleur() == joueur && joueur == -2) {
                         //cas 3
                         if (i > 0 && j < NBCASES - 1 && ((CaseBlanche) cases[i - 1][j + 1]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i-1, j+1, p.getCouleur(),2, true)){
+                            pieceTmp = new Piece(p);
+
+                            cloneCases(casesTmp, cases);
+                            change_Pos_Tmp(p, i-1, j+1);
+                            if (cherche_risque && !coup_risquer(i-1, j+1, p.getCouleur(),2, true,0)){
                                 possibilites.put(3,1);
                             }
                             else if (!cherche_risque){
@@ -469,7 +496,11 @@ Nb de ennemis pris:
                         }
                             //cas 4
                         if (j > 0 && i > 0 && ((CaseBlanche) cases[i - 1][j - 1]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i-1, j-1, p.getCouleur(),1, true)){
+                            pieceTmp = new Piece(p);
+
+                            cloneCases(casesTmp, cases);
+                            change_Pos_Tmp(p, i-1, j-1);
+                            if (cherche_risque && !coup_risquer(i-1, j-1, p.getCouleur(),1, true,0)){
                                 possibilites.put(4,1);
                             }
                             else if (!cherche_risque){
@@ -482,7 +513,7 @@ Nb de ennemis pris:
                     for (int x = 1; x <= 3; x++) {
                         //le coté haut droite +i et +j
                         if (posPossible(i, j, x, 1, 0) && ((CaseBlanche) cases[i + x][j + x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i+x, j+x, p.getCouleur(),4, true)){
+                            if (cherche_risque && !coup_risquer(i+x, j+x, p.getCouleur(),4, true,0)){
                                 possibilites.put(1,x);
                             }
                             else if (!cherche_risque){
@@ -491,7 +522,7 @@ Nb de ennemis pris:
                         }
                         //le coté haut gauche +i et -j
                         else if (posPossible(i, j, x, 2, 0) && ((CaseBlanche) cases[i + x][j - x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i+x, j-x, p.getCouleur(),3, true)){
+                            if (cherche_risque && !coup_risquer(i+x, j-x, p.getCouleur(),3, true,0)){
                                 possibilites.put(2,x);
                             }
                             else if (!cherche_risque){
@@ -500,7 +531,7 @@ Nb de ennemis pris:
                         }
                         //le coté bas droite -i et +j
                         if (posPossible(i, j, x, 3, 0) && ((CaseBlanche) cases[i - x][j + x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i-x, j+x, p.getCouleur(),2,true)){
+                            if (cherche_risque && !coup_risquer(i-x, j+x, p.getCouleur(),2,true,0)){
                                 possibilites.put(3,x);
                             }
                             else if (!cherche_risque){
@@ -509,7 +540,7 @@ Nb de ennemis pris:
                         }
                         //le coté bas gauche -i et -j
                         else if (posPossible(i, j, x, 4, 0) && ((CaseBlanche) cases[i - x][j - x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i-x, j-x, p.getCouleur(),1, true)){
+                            if (cherche_risque && !coup_risquer(i-x, j-x, p.getCouleur(),1, true,0)){
                                 possibilites.put(4,x);
                             }
                             else if (!cherche_risque){
@@ -567,7 +598,7 @@ Nb de ennemis pris:
     }
 
     /**
-     *
+     * //TODO utiliser la casetmp et piecetpmp pour la prise
      * @param i la position i ou on ce retrouve après avoir jouer le coup
      * @param j la position j ou on ce retrouve après avoir jouer le coup
      * @param coul la couleur de notre pion
@@ -575,8 +606,9 @@ Nb de ennemis pris:
      * @param verification permet de rappeller la fonction pour savoir si on joue et si on ce fait prendre es ce que l'on peut reprendre la pièce adversaire et donc ne pas être coup risquer
      * @return true si on peut ce faire prendre sans reprendre derrière par l'adversaire et donc évité au maximum de jouer ce coup
      */
-    boolean coup_risquer(int i, int j, int coul, int pos, boolean verification){
+    boolean coup_risquer(int i, int j, int coul, int pos, boolean verification, int nbPrise){
         boolean risquer = false;
+        int scorePrise;
         //ArrayList<Boolean> posPossible = new ArrayList<Boolean>();
         Iterator it = pieces.iterator();
         while (it.hasNext() && !risquer) {
@@ -584,82 +616,179 @@ Nb de ennemis pris:
             int ibis = p.getPosition().getLigne();
             int jbis = p.getPosition().getColonne();
             if(abs(i-ibis)==1 && abs(j-jbis)==1 && p.getCouleur()!=coul){
+                pieceTmp = new Piece(p);
                 if(p.isDame()){
                     for(int dep= 1; dep <= 3; dep ++) {
                         if (posPossible(ibis, jbis, dep, 1, 1) && (peutPrendre(p.getCouleur(), i, j, i + 1, j + 1, false) || pos == 1)) {
                             if((i - ibis) == 1 && (j - jbis) == 1 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i + 1, j + 1, p.getCouleur(), 1, false) && coup_risquer(i + 2, j + 2, p.getCouleur(), 1,false) && coup_risquer(i + 3, j + 3, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i + 1, j + 1, p.getCouleur(), 1, false,scorePrise) && coup_risquer(i + 2, j + 2, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i + 3, j + 3, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == 2 && (j - jbis) == 2 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i + 1, j + 1, p.getCouleur(), 1,false) && coup_risquer(i + 2, j + 2, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i + 1, j + 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i + 2, j + 2, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == 3 && (j - jbis) == 3 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i + 1, j + 1, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i + 1, j + 1, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                         } else if (posPossible(ibis, jbis, dep, 2, 1) && (peutPrendre(p.getCouleur(), i, j, i + 1, j - 1, false) || pos == 2)) {
                             if((i - ibis) == 1 && (j - jbis) == -1 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i + 1, j - 1, p.getCouleur(), 1,false) && coup_risquer(i + 2, j - 2, p.getCouleur(), 1,false) && coup_risquer(i + 3, j - 3, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i + 1, j - 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i + 2, j - 2, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i + 3, j - 3, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == 2 && (j - jbis) == -2 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i + 1, j - 1, p.getCouleur(), 1,false) && coup_risquer(i + 2, j - 2, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i + 1, j - 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i + 2, j - 2, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == 3 && (j - jbis) == -3 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i + 1, j - 1, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i + 1, j - 1, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                         } else if (posPossible(ibis, jbis, dep, 3, 1) && (peutPrendre(p.getCouleur(), i, j, i - 1, j + 1, false) || pos == 3)) {
                             if((i - ibis) == -1 && (j - jbis) == 1 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i - 1, j + 1, p.getCouleur(), 1,false) && coup_risquer(i - 2, j + 2, p.getCouleur(), 1,false) && coup_risquer(i - 3, j + 3, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i - 1, j + 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i - 2, j + 2, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i - 3, j + 3, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == -2 && (j - jbis) == 2 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i - 1, j + 1, p.getCouleur(), 1,false) && coup_risquer(i - 2, j + 2, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i - 1, j + 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i - 2, j + 2, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == -3 && (j - jbis) == 3 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i - 1, j + 1, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i - 1, j + 1, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
 
                         } else if (posPossible(ibis, jbis, dep, 4, 1) && (i - ibis) == -1 && (j - jbis) == -1 && (peutPrendre(p.getCouleur(), i, j, i - 1, j - 1, false) || pos == 4)) {
                             if((i - ibis) == -1 && (j - jbis) == -1 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i - 1, j - 1, p.getCouleur(), 1,false) && coup_risquer(i - 2, j - 2, p.getCouleur(), 1,false) && coup_risquer(i - 3, j - 3, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i - 1, j - 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i - 2, j - 2, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i - 3, j - 3, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == -2 && (j - jbis) == -2 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i - 1, j - 1, p.getCouleur(), 1,false) && coup_risquer(i - 2, j - 2, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i - 1, j - 1, p.getCouleur(), 1,false,scorePrise) && coup_risquer(i - 2, j - 2, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
                             if((i - ibis) == -3 && (j - jbis) == -3 ){
-                                risquer = true;
-                                if (verification && coup_risquer(i - 1, j - 1, p.getCouleur(), 1,false)) {
+                                verificationDautresCoups(p, true);
+                                scorePrise = p.getPionsManges();
+                                p.resetPionsManges();
+                                if(verification){
+                                    risquer = true;
+                                }
+                                if (!verification && scorePrise >= nbPrise){
+                                    risquer = true;
+                                }
+                                if (verification && coup_risquer(i - 1, j - 1, p.getCouleur(), 1,false,scorePrise)) {
                                     risquer = false;
                                 }
                             }
@@ -667,27 +796,59 @@ Nb de ennemis pris:
                     }
                 }
                 else{
-                    if(posPossible(ibis,jbis,1,1,1)  && (i-ibis)==1 && (j-jbis)==1 && (peutPrendre(p.getCouleur(), i, j, i +1, j +1, false) || pos==1)){
-                        risquer = true;
-                        if(verification && coup_risquer(ibis+2, jbis+2, p.getCouleur(), 4,false)) {
+                    if(posPossible(ibis,jbis,1,1,1)  && (i-ibis)==1 && (j-jbis)==1 && (peutPrendre(p.getCouleur(), i, j, i +1, j +1, true) || pos==1)){
+                        verificationDautresCoups(p, true);
+                        scorePrise = p.getPionsManges();
+                        p.resetPionsManges();
+                        if(verification){
+                            risquer = true;
+                        }
+                        if (!verification && scorePrise >= nbPrise){
+                            risquer = true;
+                        }
+                        if(verification && coup_risquer(ibis+2, jbis+2, p.getCouleur(), 4,false,scorePrise)) {
                             risquer = false;
                         }
                     }
-                    else if (posPossible(ibis,jbis,1,2,1)  && (i-ibis)==1 && (j-jbis)==-1 && (peutPrendre(p.getCouleur(), i, j, i +1, j -1, false) || pos==2)){
-                        risquer = true;
-                        if(verification && coup_risquer(ibis+2, jbis-2, p.getCouleur(), 3,false)) {
+                    else if (posPossible(ibis,jbis,1,2,1)  && (i-ibis)==1 && (j-jbis)==-1 && (peutPrendre(p.getCouleur(), i, j, i +1, j -1, true) || pos==2)){
+                        verificationDautresCoups(p, true);
+                        scorePrise = p.getPionsManges();
+                        p.resetPionsManges();
+                        if(verification){
+                            risquer = true;
+                        }
+                        if (!verification && scorePrise >= nbPrise){
+                            risquer = true;
+                        }
+                        if(verification && coup_risquer(ibis+2, jbis-2, p.getCouleur(), 3,false,scorePrise)) {
                             risquer = false;
                         }
                     }
-                    else if (posPossible(ibis,jbis,1,3,1)  && (i-ibis)==-1 && (j-jbis)==1 && (peutPrendre(p.getCouleur(), i, j, i -1, j +1, false) || pos==3)){
-                        risquer = true;
-                        if(verification && coup_risquer(ibis-2, jbis+2, p.getCouleur(), 2,false)) {
+                    else if (posPossible(ibis,jbis,1,3,1)  && (i-ibis)==-1 && (j-jbis)==1 && (peutPrendre(p.getCouleur(), i, j, i -1, j +1, true) || pos==3)){
+                        verificationDautresCoups(p, true);
+                        scorePrise = p.getPionsManges();
+                        p.resetPionsManges();
+                        if(verification){
+                            risquer = true;
+                        }
+                        if (!verification && scorePrise >= nbPrise){
+                            risquer = true;
+                        }
+                        if(verification && coup_risquer(ibis-2, jbis+2, p.getCouleur(), 2,false,scorePrise)) {
                             risquer = false;
                         }
                     }
-                    else if (posPossible(ibis,jbis,1,4,1)  && (i-ibis)==-1 && (j-jbis)==-1 && (peutPrendre(p.getCouleur(), i, j, i -1, j -1, false) || pos==4)){
-                        risquer = true;
-                        if(verification && coup_risquer(ibis-2, jbis-2, p.getCouleur(), 1,false)) {
+                    else if (posPossible(ibis,jbis,1,4,1)  && (i-ibis)==-1 && (j-jbis)==-1 && (peutPrendre(p.getCouleur(), i, j, i -1, j -1, true) || pos==4)){
+                        verificationDautresCoups(p, true);
+                        scorePrise = p.getPionsManges();
+                        p.resetPionsManges();
+                        if(verification){
+                            risquer = true;
+                        }
+                        if (!verification && scorePrise >= nbPrise){
+                            risquer = true;
+                        }
+                        if(verification && coup_risquer(ibis-2, jbis-2, p.getCouleur(), 1,false,scorePrise)) {
                             risquer = false;
                         }
                     }
@@ -730,9 +891,9 @@ Nb de ennemis pris:
         coupsRestants = pionsABouger;
         coupObligatoire(piecesPrioritaires, joueur, 1);
         filtrerLesPieces(piecesPrioritaires, piecesRestantes);
-        choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, true);
+        choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, true, pionsABouger);
         filtrerLesPieces(piecesPrioritaires, piecesRestantes);
-        choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, false);
+        choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, false, pionsABouger);
 
         if (coupsRestants == pionsABouger)
             finPartie = true;
