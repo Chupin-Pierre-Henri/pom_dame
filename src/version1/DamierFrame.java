@@ -2,6 +2,7 @@ package version1;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.lang.Integer;
 
 public class DamierFrame extends JFrame{
@@ -9,6 +10,7 @@ public class DamierFrame extends JFrame{
     //Les deux variables de taille de fenetre
     private final static int LARGEUR=626;
     private final static int HAUTEUR=674;
+
     //damier
     DamierPanel damPanel;
     //fenetres des scores
@@ -65,13 +67,40 @@ public class DamierFrame extends JFrame{
         scoreBox.add(text4);
         scoreBox.add(nbPionJ2);
 
+
+
+        String ACTION_KEY = "theAction";
+        JButton pauseButton = new JButton("pause");
+        Action actionListener = new AbstractAction() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                boolean b = Jeu.paused.get();
+
+                Jeu.paused.set(!b);//set it to the opposite of what it was i.e paused to unpaused and vice versa
+
+                if (pauseButton.getText().equals("Pause")) {
+                    pauseButton.setText("Un-pause");
+                } else {
+                    pauseButton.setText("Pause");
+                }
+            }
+        };
+
+        //mis en place du button pause (SPACE)
+        KeyStroke space = KeyStroke.getKeyStroke(' ');
+        InputMap inputMap = pauseButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(space, ACTION_KEY);
+        ActionMap actionMap = pauseButton.getActionMap();
+        actionMap.put(ACTION_KEY, actionListener);
+        pauseButton.setActionMap(actionMap);
+        getContentPane().add(pauseButton);
+        
         //initialisation finale de la fenetre
         panel.add(scoreBox,BorderLayout.SOUTH);
         panel.add(damPanel,BorderLayout.CENTER);
         getContentPane().add(panel);
 
     }
-    //TODO faudrait pouvoir changer le score en choisissant le score à ajouter ou enlever pour pouvoir à chaque instant évéluer le plateau
+
     //enleve un point au score du joueur
     public void changeScoreJ1(){
         this.entScoreJ1+=1;

@@ -1,17 +1,12 @@
 package version1;
 
-
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicPopupMenuUI;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
-import static javax.swing.JComponent.WHEN_IN_FOCUSED_WINDOW;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Jeu {
     public Plateau damier;
     public DamierFrame frame;
     final public int pionsAbouger = 3;
+    public static AtomicBoolean paused = new AtomicBoolean(false);
 
 
     public Jeu()throws InterruptedException {
@@ -23,34 +18,23 @@ public class Jeu {
     }
 
     public void jouer()throws InterruptedException{
-        /*InputMap im = BasicPopupMenuUI.getInputMap(WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = getActionMap();
-        Timer timer = new Timer(500, this);;
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "space");
-        am.put("space", new AbstractAction() {
-            public void actionPerformed(ActionEvent evt) {
-                if (timer.isRunning()) {
-                    timer.stop();
-                } else {
-                    timer.start();
-                }
-            }
-        });*/
-
 
         while (!damier.isFinPartie()){
+            if (!paused.get())
+                damier.strategieNaive(2, pionsAbouger, frame);
 
-            damier.strategieNaive(2, pionsAbouger, frame);
             if (!damier.isFinPartie()){
                 damier.setCoupsRestants(pionsAbouger);
-                Thread.sleep(1000);
+                Thread.sleep(500);
 
-                damier.strategieNaive(-2, pionsAbouger, frame);
+                if (!paused.get())
+                    damier.strategieNaive(-2, pionsAbouger, frame);
+
                 damier.setCoupsRestants(pionsAbouger);
-                Thread.sleep(1000);
+                Thread.sleep(500);
                 frame.show();
             }
+
         }
         finPartie();
     }
@@ -62,7 +46,6 @@ public class Jeu {
     public void finPartie(){
 
         FinFrame frame;
-        //r?cupere les scores
         int scoreJ=this.frame.getScoreJ1();
         int scoreA=this.frame.getScoreJ2();
         //Creation de la fenetre en fonction des scores
