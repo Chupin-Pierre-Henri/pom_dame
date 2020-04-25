@@ -435,17 +435,11 @@ Nb de ennemis pris:
 
     public  void choixPieceADeplacer(ArrayList<Piece> piecesPrioritaires, ArrayList<Piece> piecesRestantes, int joueur, boolean cherche_risque, int pionsABouger){
         Iterator it = piecesRestantes.iterator();
-        if(coupsRestants == pionsABouger && !cherche_risque) {
-            coupsRestants =1;
+        boolean jouer = true;
+        if (coupsRestants != pionsABouger && !cherche_risque){
+            jouer = false;
         }
-        else if (!cherche_risque){
-            coupsRestants = 0;
-        }
-        int lol;
-        if(joueur == -2 && cherche_risque){
-            lol=0;
-        }
-        while (it.hasNext() && coupsRestants>0) {
+        while (it.hasNext() && coupsRestants>0 && jouer) {
             Piece p = (Piece) it.next();
             int i = p.getPosition().getLigne();
             int j = p.getPosition().getColonne();
@@ -592,13 +586,15 @@ Nb de ennemis pris:
                     }
                     piecesPrioritaires.add(p);
                     actionPiece(p,i,j,xChoisi, posChoisi);
+                    if(!cherche_risque) {
+                        jouer = false;
+                    }
                 }
             }
         }
     }
 
     /**
-     * //TODO utiliser la casetmp et piecetpmp pour la prise
      * @param i la position i ou on ce retrouve après avoir jouer le coup
      * @param j la position j ou on ce retrouve après avoir jouer le coup
      * @param coul la couleur de notre pion
