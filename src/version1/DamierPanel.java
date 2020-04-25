@@ -3,8 +3,7 @@ package version1;
 import javax.swing.*;
 import java.awt.*;
 
-
-public class DamierPanel extends JPanel {
+public class DamierPanel extends JPanel{
     //tableau de type damier qui permet l'afichage du damier graphique
     public Plateau mat;
 
@@ -33,10 +32,6 @@ public class DamierPanel extends JPanel {
         tracker.addImage(dameN,0);
         try {tracker.waitForID(0);}
         catch(InterruptedException e){}
-    }
-
-    public void transformPionB(){
-
     }
 
     public void paintComponent(Graphics g){
