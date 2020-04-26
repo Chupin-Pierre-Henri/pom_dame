@@ -278,7 +278,6 @@ public class Plateau {
                         case 1: calculMeilleurCoup(i, j, p,x);
                             break;
                     }
-                    break;
                 }
             }
         }
