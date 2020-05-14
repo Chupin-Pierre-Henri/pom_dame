@@ -25,13 +25,13 @@ public class Jeu {
 
             if (!damier.isFinPartie()){
                 damier.setCoupsRestants(pionsAbouger);
-                Thread.sleep(500);
+                Thread.sleep(1000);
 
                 if (!paused.get())
                     damier.strategieNaive(-2, pionsAbouger, frame);
 
                 damier.setCoupsRestants(pionsAbouger);
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 frame.show();
             }
 

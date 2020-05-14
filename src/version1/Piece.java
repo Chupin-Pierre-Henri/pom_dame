@@ -42,10 +42,6 @@ public class Piece {
         return couleur;
     }
 
-    public void setCouleur(int couleur) {
-        this.couleur = couleur;
-    }
-
     public void addPionsManges() {
         this.pionsManges++;
     }
@@ -65,5 +61,4 @@ public class Piece {
     public void setDames(boolean dames){
         this.dames = dames;
     }
-
 }

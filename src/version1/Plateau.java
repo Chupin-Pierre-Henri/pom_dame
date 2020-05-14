@@ -83,50 +83,53 @@ public class Plateau {
     }
 
     public void deplacePiece(Piece p, int iCour, int jCour,int iNew, int jNew){
-
-        ((CaseBlanche)cases[iNew][jNew]).setPiece(((CaseBlanche)cases[iCour][jCour]).getPiece());
-        ((CaseBlanche)cases[iCour][jCour]).setPiece(null);
-        p.setPosition(cases[iNew][jNew]);
-
-        //crée la dame en si arrivé sur la dernière ligne ou première ligne en fonction du camp du pion
-        if(p.getCouleur()==2 && p.getPosition().getLigne()==9 && !p.isDame()){
-            p.setDames(true);
-        }
-        else if(p.getCouleur()==-2 && p.getPosition().getLigne()==0 && !p.isDame()){
-            p.setDames(true);
-        }
-    }
-
-    public void prendsPiece(Piece p, int iEnemi, int jEnemi,int iNew, int jNew, boolean verification){
-
-        if (!verification){
-            pieces.remove(((CaseBlanche)cases[iEnemi][jEnemi]).getPiece());
-            ((CaseBlanche)cases[iEnemi][jEnemi]).setPiece(null);
-            ((CaseBlanche)cases[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
-            ((CaseBlanche)cases[iNew][jNew]).setPiece(p);
+        if (!Jeu.paused.get()){
+            ((CaseBlanche)cases[iNew][jNew]).setPiece(((CaseBlanche)cases[iCour][jCour]).getPiece());
+            ((CaseBlanche)cases[iCour][jCour]).setPiece(null);
             p.setPosition(cases[iNew][jNew]);
 
+            //crée la dame en si arrivé sur la dernière ligne ou première ligne en fonction du camp du pion
             if(p.getCouleur()==2 && p.getPosition().getLigne()==9 && !p.isDame()){
                 p.setDames(true);
             }
             else if(p.getCouleur()==-2 && p.getPosition().getLigne()==0 && !p.isDame()){
                 p.setDames(true);
             }
-
-            if (p.getCouleur() == 2){
-                frame.changeNbPionJ2();
-                frame.changeScoreJ1();
-            }else{
-                frame.changeNbPionJ1();
-                frame.changeScoreJ2();
-            }
-        }else{
-            ((CaseBlanche)casesTmp[iEnemi][jEnemi]).setPiece(null);
-            ((CaseBlanche)casesTmp[pieceTmp.getPosition().getLigne()][pieceTmp.getPosition().getColonne()]).setPiece(null);
-            pieceTmp.setPosition(casesTmp[iNew][jNew]);
-            ((CaseBlanche)casesTmp[iNew][jNew]).setPiece(pieceTmp);
         }
-        verificationDautresCoups(p, verification);
+    }
+
+    public void prendsPiece(Piece p, int iEnemi, int jEnemi,int iNew, int jNew, boolean verification){
+
+        if (!Jeu.paused.get()){
+            if (!verification){
+                pieces.remove(((CaseBlanche)cases[iEnemi][jEnemi]).getPiece());
+                ((CaseBlanche)cases[iEnemi][jEnemi]).setPiece(null);
+                ((CaseBlanche)cases[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
+                ((CaseBlanche)cases[iNew][jNew]).setPiece(p);
+                p.setPosition(cases[iNew][jNew]);
+
+                if(p.getCouleur()==2 && p.getPosition().getLigne()==9 && !p.isDame()){
+                    p.setDames(true);
+                }
+                else if(p.getCouleur()==-2 && p.getPosition().getLigne()==0 && !p.isDame()){
+                    p.setDames(true);
+                }
+
+                if (p.getCouleur() == 2){
+                    frame.changeNbPionJ2();
+                    frame.changeScoreJ1();
+                }else{
+                    frame.changeNbPionJ1();
+                    frame.changeScoreJ2();
+                }
+            }else{
+                ((CaseBlanche)casesTmp[iEnemi][jEnemi]).setPiece(null);
+                ((CaseBlanche)casesTmp[pieceTmp.getPosition().getLigne()][pieceTmp.getPosition().getColonne()]).setPiece(null);
+                pieceTmp.setPosition(casesTmp[iNew][jNew]);
+                ((CaseBlanche)casesTmp[iNew][jNew]).setPiece(pieceTmp);
+            }
+            verificationDautresCoups(p, verification);
+        }
     }
 
     public void verificationDautresCoups(Piece p, boolean verification){
@@ -138,7 +141,6 @@ public class Plateau {
             i = pieceTmp.getPosition().getLigne();
             j = pieceTmp.getPosition().getColonne();
         }
-
         prise_piece(p, i, j, 1, verification);
     }
 
@@ -191,6 +193,12 @@ public class Plateau {
             piecesPrioritaires.add(p);
             piecesVisees.add(((CaseBlanche) cases[i - 1][j - 1]).getPiece());
             coupsRestants--;
+        }
+
+        Iterator it = piecesVisees.iterator();
+
+        while (it.hasNext()){
+            Piece pion = (Piece)it.next();
         }
     }
 
@@ -253,8 +261,9 @@ public class Plateau {
             }
         }
 
-        //On procede a l'action, on realise les  coups obligatoires
         Iterator it1 = piecesPrioritaires.iterator();
+        //On procede a l'action, on realise les  coups obligatoires
+        it1 = piecesPrioritaires.iterator();
         while (it1.hasNext()){
             Piece p = (Piece) it1.next();
             int i = p.getPosition().getLigne();
@@ -522,7 +531,7 @@ Nb de ennemis pris:
                 if (possibilites.size() != 0){
                     //on gere les cas quand le pion peut choisir de ne pas rester bloquer
                     Random r = new Random();
-                    int randInd = 0;// =  r.nextInt((possibilites.size()-1  - 0) + 1) + 0;
+                    int randInd = 0;
                     if (possibilites.size() > 1){
                         Iterator itPos = possibilites.entrySet().iterator();
                         while (itPos.hasNext()) {

@@ -67,8 +67,6 @@ public class DamierFrame extends JFrame{
         scoreBox.add(text4);
         scoreBox.add(nbPionJ2);
 
-
-
         String ACTION_KEY = "theAction";
         JButton pauseButton = new JButton("pause");
         Action actionListener = new AbstractAction() {
@@ -93,7 +91,7 @@ public class DamierFrame extends JFrame{
         actionMap.put(ACTION_KEY, actionListener);
         pauseButton.setActionMap(actionMap);
         getContentPane().add(pauseButton);
-        
+
         //initialisation finale de la fenetre
         panel.add(scoreBox,BorderLayout.SOUTH);
         panel.add(damPanel,BorderLayout.CENTER);
