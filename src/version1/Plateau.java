@@ -289,7 +289,7 @@ public class Plateau {
                     switch (strategie){
                         case 0: prise_piece(p, i, j, x,false);
                             break;
-                        case 1: calculMeilleurCoup(i, j, p,x);
+                        case 1: calculMeilleurCoup(i, j, p, x);
                             break;
                     }
                 }
