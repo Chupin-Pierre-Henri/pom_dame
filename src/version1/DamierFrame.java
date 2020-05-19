@@ -8,15 +8,21 @@ import java.lang.Integer;
 public class DamierFrame extends JFrame{
 
     //Les deux variables de taille de fenetre
-    private final static int LARGEUR=626;
-    private final static int HAUTEUR=674;
+//    private final static int LARGEUR=626;
+//    private final static int HAUTEUR=674;50
+    private final static int LARGEUR=1300;
+    private final static int HAUTEUR=700;
 
     //damier
-    DamierPanel damPanel;
+    private DamierPanel damPanel;
+    private JPanel debug;
+    private int phase=0;
     //fenetres des scores
-    JTextField scoreJ1,scoreJ2,nbPionJ1,nbPionJ2;
+    private JTextField scoreJ1,scoreJ2,nbPionJ1,nbPionJ2;
     //scores
-    int entScoreJ1,entScoreJ2,entNbPionJ1,entNbPionJ2;
+    private int entScoreJ1,entScoreJ2,entNbPionJ1,entNbPionJ2;
+
+    public int joueurAct;
 
     public DamierFrame(Plateau damier) {
         super();
@@ -26,7 +32,7 @@ public class DamierFrame extends JFrame{
         panel.setLayout(new BorderLayout());
         //initialisation du damier compris dans la fenetre
         this.damPanel=new DamierPanel(damier);
-        damPanel.repaint();
+        //damPanel.repaint();
 
         Box scoreBox=Box.createHorizontalBox();
         //Initialisation des fenetres de score et des scores
@@ -67,6 +73,25 @@ public class DamierFrame extends JFrame{
         scoreBox.add(text4);
         scoreBox.add(nbPionJ2);
 
+        JTextField text5 = new JTextField("      A                  B                  C                  D                  E                  F                  G                  H                  I                  J");
+        text5.setEditable(false);
+
+        Box box1 = Box.createHorizontalBox();
+        box1.add(text5);
+
+        JPanel p = new JPanel();
+        p.setLayout(new GridLayout(0,1));
+        p.add(new JLabel("1"));
+        p.add(new JLabel("2"));
+        p.add(new JLabel("3"));
+        p.add(new JLabel("4"));
+        p.add(new JLabel("5"));
+        p.add(new JLabel("6"));
+        p.add(new JLabel("7"));
+        p.add(new JLabel("8"));
+        p.add(new JLabel("9"));
+        p.add(new JLabel("10"));
+
         String ACTION_KEY = "theAction";
         JButton pauseButton = new JButton("pause");
         Action actionListener = new AbstractAction() {
@@ -93,10 +118,55 @@ public class DamierFrame extends JFrame{
         getContentPane().add(pauseButton);
 
         //initialisation finale de la fenetre
+        panel.add(p,BorderLayout.CENTER);
         panel.add(scoreBox,BorderLayout.SOUTH);
-        panel.add(damPanel,BorderLayout.CENTER);
-        getContentPane().add(panel);
+        damPanel.add(box1);
+        panel.add(damPanel,BorderLayout.WEST);
 
+        debug = new JPanel();
+        debug.setLayout(new GridLayout(0,5));
+
+        panel.add(debug,BorderLayout.EAST);
+        getContentPane().add(panel);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    }
+
+    public String giveIdx(int i){
+        switch (i){
+            case 0: return "A";
+            case 1: return "B";
+            case 2: return "C";
+            case 3: return "D";
+            case 4: return "E";
+            case 5: return "F";
+            case 6: return "G";
+            case 7: return "H";
+            case 8: return "I";
+            case 9: return "J";
+            default: return "X";
+        }
+    }
+
+    public void miseAJourPhase(){
+        phase++;
+    }
+
+    public void miseAJourPanelDebug(Case pred, Case suiv, boolean isPris, Case mange){
+
+        String n = "Ph "+phase+": "+(pred.getLigne()+1)+giveIdx(pred.getColonne())+" -> "+(suiv.getLigne()+1)+giveIdx(suiv.getColonne());
+        if (isPris)
+            n += "(P "+ (mange.getLigne()+1)+giveIdx(mange.getColonne())+")";
+        else
+            n += "(D)";
+        JTextField newText=new JTextField(n);
+        if (joueurAct == 2)
+            newText.setForeground(Color.GRAY);
+        else
+            newText.setForeground(Color.RED);
+
+        newText.setEditable(false);
+        debug.add(newText);
     }
 
     //enleve un point au score du joueur
@@ -136,6 +206,6 @@ public class DamierFrame extends JFrame{
     //pour rafraichir le damier avec le nouveau tableau
     public void rafraichir(Plateau mat){
         damPanel.rafraichir(mat);
-        damPanel.repaint();
+        //damPanel.repaint();
     }
 }

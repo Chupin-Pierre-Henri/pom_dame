@@ -83,7 +83,10 @@ public class Plateau {
     }
 
     public void deplacePiece(Piece p, int iCour, int jCour,int iNew, int jNew){
-        if (!Jeu.paused.get()){
+
+        frame.miseAJourPanelDebug(cases[iCour][jCour], cases[iNew][jNew], false, null);
+
+       // if (!Jeu.paused.get()){
             ((CaseBlanche)cases[iNew][jNew]).setPiece(((CaseBlanche)cases[iCour][jCour]).getPiece());
             ((CaseBlanche)cases[iCour][jCour]).setPiece(null);
             p.setPosition(cases[iNew][jNew]);
@@ -95,13 +98,15 @@ public class Plateau {
             else if(p.getCouleur()==-2 && p.getPosition().getLigne()==0 && !p.isDame()){
                 p.setDames(true);
             }
-        }
+       // }
     }
 
     public void prendsPiece(Piece p, int iEnemi, int jEnemi,int iNew, int jNew, boolean verification){
 
-        if (!Jeu.paused.get()){
+        //if (!Jeu.paused.get()){
             if (!verification){
+                frame.miseAJourPanelDebug(p.getPosition(), cases[iNew][jNew], true, cases[iEnemi][jEnemi]);
+
                 pieces.remove(((CaseBlanche)cases[iEnemi][jEnemi]).getPiece());
                 ((CaseBlanche)cases[iEnemi][jEnemi]).setPiece(null);
                 ((CaseBlanche)cases[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
@@ -129,7 +134,7 @@ public class Plateau {
                 ((CaseBlanche)casesTmp[iNew][jNew]).setPiece(pieceTmp);
             }
             verificationDautresCoups(p, verification);
-        }
+       // }
     }
 
     public void verificationDautresCoups(Piece p, boolean verification){
@@ -461,7 +466,7 @@ Nb de ennemis pris:
                             pieceTmp = new Piece(p);
 
                             cloneCases(casesTmp, cases);
-                            change_Pos_Tmp(p, i+1, j+1);
+                            change_Pos_Tmp(pieceTmp, i+1, j+1);
                             if (cherche_risque && !coup_risquer(i+1, j+1, p.getCouleur(),4, true,0)){
                                 possibilites.put(1,1);
                             }
@@ -474,7 +479,7 @@ Nb de ennemis pris:
                             pieceTmp = new Piece(p);
 
                             cloneCases(casesTmp, cases);
-                            change_Pos_Tmp(p, i+1, j-1);
+                            change_Pos_Tmp(pieceTmp, i+1, j-1);
                             if (cherche_risque && !coup_risquer(i+1, j-1, p.getCouleur(),3,true,0)){
                                 possibilites.put(2,1);
                             }
@@ -488,7 +493,7 @@ Nb de ennemis pris:
                             pieceTmp = new Piece(p);
 
                             cloneCases(casesTmp, cases);
-                            change_Pos_Tmp(p, i-1, j+1);
+                            change_Pos_Tmp(pieceTmp, i-1, j+1);
                             if (cherche_risque && !coup_risquer(i-1, j+1, p.getCouleur(),2, true,0)){
                                 possibilites.put(3,1);
                             }
@@ -501,7 +506,7 @@ Nb de ennemis pris:
                             pieceTmp = new Piece(p);
 
                             cloneCases(casesTmp, cases);
-                            change_Pos_Tmp(p, i-1, j-1);
+                            change_Pos_Tmp(pieceTmp, i-1, j-1);
                             if (cherche_risque && !coup_risquer(i-1, j-1, p.getCouleur(),1, true,0)){
                                 possibilites.put(4,1);
                             }
@@ -890,17 +895,20 @@ Nb de ennemis pris:
     public void strategieNaive(int joueur, int pionsABouger, DamierFrame frame){
 
         this.frame = frame;
+        this.frame.joueurAct = joueur;
         ArrayList<Piece> piecesRestantes = new ArrayList<Piece>();
         ArrayList<Piece> piecesPrioritaires = new ArrayList<Piece>();
         coupsRestants = pionsABouger;
-        coupObligatoire(piecesPrioritaires, joueur, 1);
-        filtrerLesPieces(piecesPrioritaires, piecesRestantes);
-        choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, true, pionsABouger);
-        filtrerLesPieces(piecesPrioritaires, piecesRestantes);
-        choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, false, pionsABouger);
+        //if (!Jeu.paused.get()){
+            coupObligatoire(piecesPrioritaires, joueur, 1);
+            filtrerLesPieces(piecesPrioritaires, piecesRestantes);
+            choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, true, pionsABouger);
+            filtrerLesPieces(piecesPrioritaires, piecesRestantes);
+            choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, false, pionsABouger);
 
-        if (coupsRestants == pionsABouger)
-            finPartie = true;
+            if (coupsRestants == pionsABouger)
+                finPartie = true;
+       // }
     }
 
     public Case getCase(int i, int j){

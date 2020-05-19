@@ -33,37 +33,37 @@ public class DamierPanel extends JPanel{
 
     public void paintComponent(Graphics g){
 
-        int i,j;
+        int i,j,n = 25;
 
         for (i=0; i< mat.NBCASES; i++){
             for (j=0; j< mat.NBCASES; j++){
                 if (mat.getCase(i,j) instanceof CaseNoire)
-                    g.drawImage(this.blanc,j*TAILLEIM,i*TAILLEIM,null);
+                    g.drawImage(this.blanc,j*TAILLEIM,i*TAILLEIM+n,null);
                 else if (mat.getCase(i,j) instanceof CaseBlanche && ((CaseBlanche) mat.getCase(i,j)).isLibre())
-                    g.drawImage(this.noir,j* TAILLEIM,i* TAILLEIM,null);
+                    g.drawImage(this.noir,j* TAILLEIM,i* TAILLEIM+n,null);
                 else if (mat.getCase(i,j) instanceof CaseBlanche &&
                         ((CaseBlanche) mat.getCase(i,j)).getPiece().getCouleur() == 2 &&
                         !((CaseBlanche) mat.getCase(i,j)).getPiece().isDame())
 
-                    g.drawImage(this.pionB,j*TAILLEIM,i*TAILLEIM,null);
+                    g.drawImage(this.pionB,j*TAILLEIM,i*TAILLEIM+n,null);
 
                 else if (mat.getCase(i,j) instanceof CaseBlanche &&
                         ((CaseBlanche) mat.getCase(i,j)).getPiece().getCouleur() == -2 &&
                         !((CaseBlanche) mat.getCase(i,j)).getPiece().isDame())
 
-                    g.drawImage(this.pionN,j*TAILLEIM,i*TAILLEIM,null);
+                    g.drawImage(this.pionN,j*TAILLEIM,i*TAILLEIM+n,null);
 
                 else if (mat.getCase(i,j) instanceof CaseBlanche &&
                         ((CaseBlanche) mat.getCase(i,j)).getPiece().getCouleur() == -2 &&
                         ((CaseBlanche) mat.getCase(i,j)).getPiece().isDame())
 
-                    g.drawImage(this.dameN,j*TAILLEIM,i*TAILLEIM,null);
+                    g.drawImage(this.dameN,j*TAILLEIM,i*TAILLEIM+n,null);
 
                 else if (mat.getCase(i,j) instanceof CaseBlanche &&
                     ((CaseBlanche) mat.getCase(i,j)).getPiece().getCouleur() == 2 &&
                     ((CaseBlanche) mat.getCase(i,j)).getPiece().isDame())
 
-                    g.drawImage(this.dameB,j*TAILLEIM,i*TAILLEIM,null);
+                    g.drawImage(this.dameB,j*TAILLEIM,i*TAILLEIM+n,null);
 
             }
         }

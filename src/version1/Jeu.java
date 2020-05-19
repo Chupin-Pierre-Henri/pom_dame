@@ -18,23 +18,29 @@ public class Jeu {
     }
 
     public void jouer()throws InterruptedException{
+        int turn = -2;
 
         while (!damier.isFinPartie()){
-            if (!paused.get())
-                damier.strategieNaive(2, pionsAbouger, frame);
+            if (!paused.get()){
+                if (turn == -2) {
+                    damier.strategieNaive(2, pionsAbouger, frame);
+                    turn = 2;
 
-            if (!damier.isFinPartie()){
-                damier.setCoupsRestants(pionsAbouger);
-                Thread.sleep(1000);
-
-                if (!paused.get())
+                    if (!damier.isFinPartie()) {
+                        damier.setCoupsRestants(pionsAbouger);
+                        Thread.sleep(1000);
+                    }
+                }
+                if (turn == 2) {
                     damier.strategieNaive(-2, pionsAbouger, frame);
+                    turn = -2;
+                    frame.miseAJourPhase();
 
-                damier.setCoupsRestants(pionsAbouger);
-                Thread.sleep(1000);
-                frame.show();
+                    damier.setCoupsRestants(pionsAbouger);
+                    Thread.sleep(1000);
+                }
             }
-
+            frame.show();
         }
         finPartie();
     }
