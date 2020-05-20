@@ -101,16 +101,21 @@ Afin de commencé notre travail sur la modélisation distribuée nous avons du b
 Une fois cela fait il nous suffit de mettre en place le plateau avec nos différentes images \cite{annexe1}. Voici donc à quoi ressemble le plateau et les pièces après le premier coup des blancs.
 
 \begin{center}
-\includegraphics[scale=0.4]{plateau_ini}
+\includegraphics[scale=0.4]{plateau-ini}
 \end{center}
 
-afin de mieux pouvoir voir ce qu'il ce passe il a fallut mettre en place la possibilité de mettre en pause le jeu pour s'arreter et comprendre au mieux comment le programme fonctionne, nous verrons par la suite des exemples précis de comportement. \\
+afin de mieux pouvoir voir ce qu'il ce passe il a fallut mettre en place la possibilité de mettre en pause le jeu\cite{annexe2} pour s'arreter et comprendre au mieux comment le programme fonctionne, nous verrons par la suite des exemples précis de comportement. \\
 
 \subsection{Stratégie Naive}
 Avant de pouvoir commencer à aller loin dans la modélisation distribuée nous avons du faire une stratégie naive qui consiste simplement à faire jouer l'IA le plus simplement possible sans aucune réflexion de sa part. Nous sommes partie sur le principe que l'IA jouera le maximum de pions possible pour chaque coups. Dans un premier temps elle regardera les coups obligatoires à faire comme la prise et jouera toute les prises, si il lui reste des mouvements possible elle devra alors regarder chaque pièce non déplacé si elle peut les déplacer. Si oui alors elle la joue qu'importe si le mouvement est mauvais ou non jusqu'à ne plus avoir de mouvement possible à jouer. cette stratégie naive nous servira de base pour créer une stratégie plus performante par la suite.
 
 \subsection{Amélioration de la prise}
 
+
+\subsection{Amélioration du déplacement}
+Il y avait comme soucis majeur le choix des pièces à déplacer une fois les coups obligatoires joué. Nous avons donc du réfléchir à comment faire pour éviter les mouvements mauvais (qui nous font perdre des pièces juste après). Pour ce faire nous avons cherché des algorithmes connu qui sont utilisé pour ce genre de problème. C'est le cas de l'algorithme min-max qui nous a inspiré. Le but est de tester à chaque fois qu'on prévoit de déplacer une pièce si cela est risqué pour elle ou non. Pour ce faire nous avons eu besoin de créer une fonction récursive qui test si la pièce que l'on veut jouer sera en danger si on l'a joue. Cela fait partie de la première étape de la fonction car le but de l'algorithme min-max est de fabriquer un arbre de toutes les possibilitées possible de mouvement et de déscendre le plus possible en profondeur. Le problème entant que l'arbre devient extrémement grand très rapidement. Exemple si on peut déplacer 10 pièce différentes et chacune à deux position différentes on aura un arbre degrès 20 sur le noeud racine mais cela ne s'arrete pas la car si on veut déscendre d'un cran et voir le déplacement que l'adversaire pourrait faire en réponse alors on a pour chaque neud touts les mouvements possible de l'adversaire et rappelon que nous donné la possibilité de déplacer au choix 1 à N pièce par coups ce qui augmente le nombre de déplacement adversaire possible et donc augmente la taille de l'arbre. C'est pour cet raison que nous avons voulu limité notre parcoure en profondeur de l'arbre et la façon dont nous cherchons dans l'arbre. au lieu de simuler tous l'arbre puis de chercher dedans nous le simulon petit à petit et nous arrêtons des que l'ont a trouvé un mouvement satisfaisant. Pour ce faire nous prenons les pièces une à une et quand elle peut ce déplacer alors nous testons si après avoir fait ce déplacement elle risque de se faire prendre par l'adversaire et si c'est le cas alors nous la jouons pas. au contraire si elle peut ce déplacer sans risque alors elle est joué et nous arretons de vérifier des que nous avons joué le nombre maximum de pièce possible dans notre coup ce qui fait que nous créons que petit à petit l'abre des coups possible afin de limiter la taille de celui ci. Bien sur cela implique des limites car certaines fois un coups sans risque par rapport à un autre est plus efficace.
+
+\subsection{Amélioration du pistage du risque}
 
 
 \section{Conclusion}
