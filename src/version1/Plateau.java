@@ -11,7 +11,7 @@ public class Plateau {
     private Case casesTmp[][];
     private Case casestampon[][];
     private Piece pieceTmp1;
-    private Piece pieceTmp2;
+    private int nbRisque;
     private int coupsRestants;
     public DamierFrame frame;
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
@@ -472,6 +472,10 @@ Nb de ennemis pris:
         if (coupsRestants != pionsABouger && !cherche_risque){
             jouer = false;
         }
+        else{
+            cloneCases(casesTmp, cases);
+            nbRisque = coup_risquer(-1, -1, joueur,-1, true,0,-1,-1);
+        }
          while (it.hasNext() && coupsRestants>0 && jouer) {
             Piece p = (Piece) it.next();
             int i = p.getPosition().getLigne();
@@ -479,6 +483,8 @@ Nb de ennemis pris:
 
             HashMap<Integer, Integer> possibilites = new HashMap<Integer, Integer>();
             if (p.getCouleur() == joueur){
+                cloneCases(casesTmp, cases);
+                nbRisque = coup_risquer(-1, -1, joueur,-1, true,0,-1,-1);
                 if(!p.isDame() ) {
                     if (p.getCouleur() == joueur && joueur == 2) {
                         //cas 1
@@ -486,7 +492,7 @@ Nb de ennemis pris:
                             pieceTmp1 = new Piece(p);
                             cloneCases(casesTmp, cases);
                             change_Pos_Tmp(pieceTmp1, i+1, j+1);
-                            if (cherche_risque && !coup_risquer(i+1, j+1, p.getCouleur(),4, true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i+1, j+1, p.getCouleur(),4, true,0,i,j)){
                                 possibilites.put(1,1);
                             }
                             else if (!cherche_risque){
@@ -498,7 +504,7 @@ Nb de ennemis pris:
                             pieceTmp1 = new Piece(p);
                             cloneCases(casesTmp, cases);
                             change_Pos_Tmp(pieceTmp1, i+1, j-1);
-                            if (cherche_risque && !coup_risquer(i+1, j-1, p.getCouleur(),3,true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i+1, j-1, p.getCouleur(),3,true,0,i,j)){
                                 possibilites.put(2,1);
                             }
                             else if (!cherche_risque){
@@ -511,7 +517,7 @@ Nb de ennemis pris:
                             pieceTmp1 = new Piece(p);
                             cloneCases(casesTmp, cases);
                             change_Pos_Tmp(pieceTmp1, i-1, j+1);
-                            if (cherche_risque && !coup_risquer(i-1, j+1, p.getCouleur(),2, true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i-1, j+1, p.getCouleur(),2, true,0,i,j)){
                                 possibilites.put(3,1);
                             }
                             else if (!cherche_risque){
@@ -523,7 +529,7 @@ Nb de ennemis pris:
                             pieceTmp1 = new Piece(p);
                             cloneCases(casesTmp, cases);
                             change_Pos_Tmp(pieceTmp1, i-1, j-1);
-                            if (cherche_risque && !coup_risquer(i-1, j-1, p.getCouleur(),1, true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i-1, j-1, p.getCouleur(),1, true,0,i,j)){
                                 possibilites.put(4,1);
                             }
                             else if (!cherche_risque){
@@ -536,7 +542,7 @@ Nb de ennemis pris:
                     for (int x = 1; x <= 3; x++) {
                         //le coté haut droite +i et +j
                         if (posPossible(i, j, x, 1, 0) && ((CaseBlanche) cases[i + x][j + x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i+x, j+x, p.getCouleur(),4, true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i+x, j+x, p.getCouleur(),4, true,0,i,j)){
                                 possibilites.put(1,x);
                             }
                             else if (!cherche_risque){
@@ -545,7 +551,7 @@ Nb de ennemis pris:
                         }
                         //le coté haut gauche +i et -j
                         else if (posPossible(i, j, x, 2, 0) && ((CaseBlanche) cases[i + x][j - x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i+x, j-x, p.getCouleur(),3, true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i+x, j-x, p.getCouleur(),3, true,0,i,j)){
                                 possibilites.put(2,x);
                             }
                             else if (!cherche_risque){
@@ -554,7 +560,7 @@ Nb de ennemis pris:
                         }
                         //le coté bas droite -i et +j
                         if (posPossible(i, j, x, 3, 0) && ((CaseBlanche) cases[i - x][j + x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i-x, j+x, p.getCouleur(),2,true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i-x, j+x, p.getCouleur(),2,true,0,i,j)){
                                 possibilites.put(3,x);
                             }
                             else if (!cherche_risque){
@@ -563,7 +569,7 @@ Nb de ennemis pris:
                         }
                         //le coté bas gauche -i et -j
                         else if (posPossible(i, j, x, 4, 0) && ((CaseBlanche) cases[i - x][j - x]).isLibre()) {
-                            if (cherche_risque && !coup_risquer(i-x, j-x, p.getCouleur(),1, true,0,i,j)){
+                            if (cherche_risque && nbRisque >= coup_risquer(i-x, j-x, p.getCouleur(),1, true,0,i,j)){
                                 possibilites.put(4,x);
                             }
                             else if (!cherche_risque){
@@ -632,14 +638,13 @@ Nb de ennemis pris:
      * @param verification permet de rappeller la fonction pour savoir si on joue et si on ce fait prendre es ce que l'on peut reprendre la pièce adversaire et donc ne pas être coup risquer
      * @return true si on peut ce faire prendre sans reprendre derrière par l'adversaire et donc évité au maximum de jouer ce coup
      */
-    boolean coup_risquer(int i, int j, int coul, int pos, boolean verification, int nbPrise, int non_i,int non_j){
-        boolean risquer = false;
-        int nbRisque = 0;
+    int coup_risquer(int i, int j, int coul, int pos, boolean verification, int nbPrise, int non_i,int non_j){
+        int nbRisqueTmp = 0;
         //ArrayList<Boolean> posPossible = new ArrayList<Boolean>();
         Iterator itbis = pieces.iterator();
         cloneCases(casestampon, casesTmp);
         //risquer = pos_risquer(i, j, coul, pos, verification, nbPrise);
-        while (itbis.hasNext() && !risquer) {
+        while (itbis.hasNext()) {
             Piece pbis = (Piece) itbis.next();
             int ibis2 = pbis.getPosition().getLigne();
             int jbis2 = pbis.getPosition().getColonne();
@@ -649,12 +654,12 @@ Nb de ennemis pris:
             }
             if(pbis.getCouleur()==coul) {
                 if (verification && pos_risquer(ibis2, jbis2, coul, -1, verification, nbPrise)) {
-                    risquer = true;
+                    nbRisqueTmp ++;
                 }
                 cloneCases(casesTmp, casestampon);
             }
         }
-        return risquer;
+        return nbRisqueTmp;
     }
 
     boolean containePiecetmp(Piece p){
