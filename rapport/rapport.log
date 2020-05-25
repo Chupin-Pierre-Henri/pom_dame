@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.11)  19 MAY 2020 11:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.11)  25 MAY 2020 20:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -666,7 +666,7 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 LaTeX Warning: Citation `annexe1' on page 2 undefined on input line 101.
 
-<plateau-ini.png, id=12, 625.33624pt x 672.5125pt>
+<plateau-ini.png, id=11, 625.33624pt x 672.5125pt>
 File: plateau-ini.png Graphic file (type png)
 <use plateau-ini.png>
 Package pdftex.def Info: plateau-ini.png  used on input line 104.
@@ -680,7 +680,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 107--108
 
  []
 
-[3 <./plateau-ini.png>] [4] (./rapport.aux)
+[3 <./plateau-ini.png>] [4] [5] (./rapport.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -699,10 +699,10 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on rapport.pdf (4 pages, 267742 bytes).
+Output written on rapport.pdf (5 pages, 271686 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 29 compressed objects within 1 object stream
+ 47 PDF objects out of 1000 (max. 8388607)
+ 31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
