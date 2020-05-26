@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.11)  25 MAY 2020 20:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.4.11)  26 MAY 2020 17:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -653,56 +653,58 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 63.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 63.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 81.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 76.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 81.
- [1
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
+ [2]
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Warning: Citation `annexe1' on page 3 undefined on input line 123.
 
-LaTeX Warning: Citation `annexe1' on page 2 undefined on input line 101.
-
-<plateau-ini.png, id=11, 625.33624pt x 672.5125pt>
+<plateau-ini.png, id=15, 625.33624pt x 672.5125pt>
 File: plateau-ini.png Graphic file (type png)
 <use plateau-ini.png>
-Package pdftex.def Info: plateau-ini.png  used on input line 104.
+Package pdftex.def Info: plateau-ini.png  used on input line 126.
 (pdftex.def)             Requested size: 250.13007pt x 269.00023pt.
-[2]
+[3]
 
-LaTeX Warning: Citation `annexe2' on page 3 undefined on input line 107.
+LaTeX Warning: Citation `annexe2' on page 4 undefined on input line 129.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 107--108
+Underfull \hbox (badness 10000) in paragraph at lines 129--130
 
  []
 
-[3 <./plateau-ini.png>] [4] [5] (./rapport.aux)
+[4 <./plateau-ini.png>] [5] [6] (./rapport.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 4278 strings out of 492982
- 63631 string characters out of 6134896
+ 4279 strings out of 492982
+ 63639 string characters out of 6134896
  136880 words of memory out of 5000000
- 7783 multiletter control sequences out of 15000+600000
+ 7784 multiletter control sequences out of 15000+600000
  9962 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 44i,10n,43p,2443b,247s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,10n,43p,2443b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on rapport.pdf (5 pages, 271686 bytes).
+Output written on rapport.pdf (6 pages, 274743 bytes).
 PDF statistics:
- 47 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 50 PDF objects out of 1000 (max. 8388607)
+ 33 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
