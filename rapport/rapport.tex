@@ -63,87 +63,190 @@
 \maketitle
 
 \begin{abstract}
-Ce  projet  a  pour  but  de  créer  une modélisation distribuée et de l'appliquer à un cas concré ici une variente du jeu de dames. Nous avons fait en sorte de rendre chaque agent (pièce) indépendante dans leurs raisonnement et ils doivent communiquer entre eux afin de réussir à avoir les meilleurs résultat. Cela permettra de créer des stratégies pour des jeux et de comprendre mieux comment fonctionne la modélisation distribuée. Nous faisons un match entre deux IA qui utilise la même stratégie afin de voir les résultats avec deux joueurs au même niveau de compétance. \\
-Mots-clés: Modélisation distribuée, stratégie, recherche de risque
+Abstract
+Ce document décrit notre projet ayant pour  but  de  créer  une modélisation distribuée et de l'appliquer à un cas concret qui sera une variante du jeu de dames. Cela permettra de créer des stratégies pour des jeux et de comprendre mieux comment fonctionne la modélisation distribuée. Une démarche détaillée sur nos réalisations ainsi que les limitations de notre travail y seront présentées.  \\
+Mots-clés: Intelligence artificielle distribuée, intelligence artificielle centralisée, stratégie, recherche de risque
 \end{abstract}
+
+
+
 \section{Introduction}
-Ce projet s'inscrit dans le cadre du second semestre de Master 1 informatique de Lyon et dans l'optique de poursuivre en Master IA de Lyon. Pour ce projet nous avons put compter sur notre encadrant Aknine Samir appartenant à l'équipe Systèmes Multi-Agents de lyon. Depuis longtemps beaucoup d'informaticiens veulent résoudre des jeux comme les échecs en créant des IA cable de faire cela. Résoudre ce genre de problèmes demandes beaucoup de travail car il faut dans un premier temps créer informatiquement le jeux que l’on veut créer et mettre en place toutes ses règles. Une fois tout cela fait le vrai travail commence, le codage des stratégies que l’IA utilisera pour jouer au jeux. Nous avons décidé de faire la modélisation distribuée d'un jeu ancestrale, le jeu de dames. 
+Le sujet de notre Projet d’Orientation en Master(POM) est Modélisation distribuée d’un jeu stratégique: Cas d'une variante du jeu de dames. Il s'inscrit dans le cadre du second semestre de Master 1 informatique de Lyon 1 et dans l'optique de poursuivre en Master IA. Pour ce projet nous avons pu compter sur notre encadrant Aknine Samir appartenant à l'équipe Systèmes Multi-Agents de LIRIS dont les axes de recherches s’inscrivent dans le domaine de l'intelligence artificielle. 
+L’Intelligence artificielle Distribuée (IAD) vise à combler les lacunes de l’approche classique de l’IA en proposant la distribution de l’expertise sur un groupe d’agents.
+Elle se définit comme la branche de l’IA qui s’intéresse à la modélisation de comportement intelligent d’un ensemble d’agents opérant collectivement et de façon décentralisée pour parvenir à un objectif global.
+La création d’un jeu de dames géré par une intelligence artificielle distribuée ainsi que l'implémentation d’un ensemble de stratégies collectives restent une problématique assez actuelle et s’ouvre à plusieurs types de solutions comme l’algorithme MinMax. 
 
 \section{Etat de l'art}
-En 1995 un outil permettant d'avoir un système de fichier identique sur des machines n'étant pas connectée entres elles fut crée c'était le NNFS (Non Networked File System). Les fichiers pouvaient être modifiés sur n'importe quelle machine. Un medium passe de machine en machine pour faire les mises à jour. En cas de conflit, si NNFS a fait un "mauvais" choix, l'utilisateur a accès à l'autre version. La modélisation distribuée est très liée au système multi-agents qui est un système composé d'un ensemble d'agents (un processus, un robot, un être humain, etc.), situés dans un certain environnement et interagissant selon certaines relations. Un agent est une entité caractérisée par le fait qu'elle est, au moins partiellement, autonome. On distingue généralement trois domaines d'utilisation.
+L’Intelligence artificielle distribuée(IAD)
+L’IAD s’intéresse à des comportements intelligents qui sont le produit de l’activité coopérative de plusieurs agents. Elle représente une branche de l'intelligence artificielle dont le but est de créer des systèmes décentralisés, généralement multi-agents, capables de coopérer et de se coordonner. L'intelligence artificielle distribuée étudie les techniques permettant à des agents autonomes d'interagir, et les moyens de répartir un problème entre ces agents. Ces techniques sont inspirées des structures complexes de certaines sociétés d'insectes comme les fourmis. Un des domaines d'application de l'IAD est la coordination d'agents autonomes mobiles (comme les avions ou les voitures) - qui doivent apprendre à s'éviter tout en ayant des contraintes de trajet et de temps. 
+Dans un système multi-agents géré par ce type d’IA on va trouver une communauté d’agents autonomes qui évoluent dans un environnement commun, selon des modes parfois complexes de coopération, de concurrence voire de conflit, pour aboutir à un objectif global. Un agent est un logiciel ou un matériel capable de capter de l’information, d’agir " rationnellement " en fonction des données récupérées et de déclencher une action pour optimiser ses chances de succès.
+Un agent peut réagir en temps réel et en fonction de l’environnement. Lorsque cela s’avère nécessaire par la complexité de l’objectif à atteindre, les agents intelligents sont intégrés dans des systèmes multi-agents constitués d’une somme d’agents autonomes, mais reliés et collaborant entre eux. 
+Ces agents constituent un système complexe qui comprend une intelligence que l’on pourrait qualifier de collective.
 
-\begin{itemize}
-\item Le monde de la recherche
-\item L'industrie
-\item La finance
-\end{itemize}
+\subsection{L’Intelligence artificielle centralisée}
 
-\subsection{Le monde de la recherche}
-On distingue généralement trois types d'utilisation.
+L’approche classique de l’Intelligence Artificielle(IA) suppose une fondation sur une centralisation de l’expertise au sein d’un seul et unique système expert. De plus, tous les entités qui font partie de ce système central en sont dépendantes, tous les décisions et les stratégies sont pris par le système.
 
-\begin{itemize}
-\item La simulation de phénomènes complexes
-\item La résolution de problèmes,
-\item La conception de programmes
-\end{itemize}
-La simulation de phénomènes complexes utilisent les systèmes distribué et multi-agents pour simuler des interactions existant entre agents autonomes ici le but est de déterminer l'évolution du système pour prévoir son organisation. Ils existent différent exemple concrait comme EpiSIM qui est un logiciel qui simule la propagation de maladies dans un espace géographique paramétrable.
-La résolution de problèmes consiste à résoudres les problèmes de complexité des gros programmes monolithique de l'intelligence artificielle. Enfin la conception de programmes à évolué grâce au systèmes distribués en pouvant s'armée d'agent autonome.
+\subsection{L’algorithme MinMax}
 
-\subsection{L'industrie}
-Dans l'industrie les systèmes multi-agens sont variées et nombreuses on les retrouvent notamment dans les jeux vidéo et l'animation avec par exemple des logiciels qui permettent de simuler des foules.
+Minimax est un algorithme décisionnel , généralement utilisé dans un jeu au tour par tour, à deux joueurs . Son but est de trouver le prochain coup optimal.
+L'objectif est de trouver le meilleur coup pour le joueur. Pour ce faire, nous pouvons simplement choisir le nœud avec le meilleur score d’évaluation. Pour rendre le processus plus intelligent, nous pouvons également regarder de l’avant et évaluer les mouvements de nos adversaires potentiels.
+Pour chaque mouvement, nous pouvons prévoir autant de mouvements que notre puissance de calcul le permet. L’algorithme suppose que l’adversaire joue de manière optimale.
+Techniquement, nous commençons par le nœud racine et choisissons le meilleur nœud possible. Nous évaluons les nœuds en fonction de leurs scores d’évaluation. Dans notre cas, la fonction d’évaluation peut attribuer des scores aux seuls nœuds de résultats (feuilles).
+Par conséquent, nous atteignons récursivement les feuilles avec des scores et propageons les scores en arrière.
 
-\subsection{La finance}
-Le monde de la finance utilisent eux les systèmes multi-agents pour tenter de faire du trading automatique en suivant les cours de certains marché comme celui du Forex.
 
-\section{Outils utilisés}
+\section{Implementation}
+Dans cette étape nous allons présenter l’interface graphique des dames, les règles qu’on a choisi, décrire en détails la mise en place de l’algorithme MinMax, le calcul du meilleur coup  d’une pièce et mesurer le risque de son coup. On va également aller plus loins sur les potentielles améliorations ainsi que les limitations de nos réalisations.
 
-\subsection{Le Jeu de dames}
-La modélisation réalisé se base sur le jeux de dames classique mais avec quelque changement de régle qui permette d'avoir des comportements différents de ce qu'on peut voir en général. voici la liste des différentes régles et système utilisé utilisée:
+
+
+\subsection{Le règles du jeu}
+
+Notre modélisation se base sur le jeux de dames classique avec quelques changements qui permettent d'avoir des comportements différents et plus intéressants. 
+Voici l’ensemble des règles qu’on a implémenté: 
 \begin{itemize}
 \item Un plateau carré de 10 cases sur 10
-\item 20 pions blancs pour un joueur et 20 pions noir pour un autre joueur
-\item chaque joueur jouera à tour de rôle et il pourra jouer 1 à N (nombre choisi avant de lancer une partie) pièces en même temps ce qui permet de voir comment vont réagir plusieurs pièces ensemble
-\item Création classique de la dames qui permet d'avoir plusieurs types de pièce à gérer
-\item Une dame peut se déplacer sur 3 cases de diagonale maximum nous avons voulu changer avec les règles habituels
-\item La prise est obligatoire comme dans les règles classique des dames.
-\item La prise multiple est possible aussi comme dans les dames classiques
-\item Une partie est gagné si on prend toutes les pièces advairse ou si l'aderversaire ne peut pas ce déplacer quand c'est son tour de jeu.
-\item Si il y a 30 coups sans prise la partie est nul
-\end{itemize}
-
-\section{Travail réalisé}
-
-\subsection{Modélisation du jeu de dame}
-Afin de commencé notre travail sur la modélisation distribuée nous avons du bien sur faire la modélisation du jeu de dame. Le fait de donner un aspect graphique au jeu ( on voit le plateau et les pièces ce déplacer) était important afin de mieux voir ce qu'il ce passe pendant le déroulement du programme et donner un coté graphique à notre travail. Bien sur on aurait pu le faire tourner sans affichage pour juste avoir le résultat de la simulation. Il a donc fallut partir à la recherche d'image pouvant être intégrer au projet qui permettrait de rendre cela possible. il nous fallait alors
+\item 20 pions blancs et 20 pions noir
+\item Un pion se déplace d’une case à la fois
+\item 2 IAs qui joueront à tour de rôle de 1 à 3 pièces (nombre maximal qui peut être changé avant de lancer une partie)
+\item Un pion devient une dame quand il va atteindre le bout du territoir de l’ennemi
+\item Une dame se déplace de 1 jusqu’à 3 cases maximum 
+\item La prise d’une pièce est obligatoire, que ça soit en arrière ou en avant 
+ \item La prise multiple est possible et reste également obligatoire
+\item une partie est gagnée quand:
 \begin{itemize}
-\item Une image de plateau carré de 10 cases sur 10
-\item Une image de pion blanc et noir
-\item Une image de dema blanche et noir
+\item si toutes les pièces adverses sont prises
+\item si l'adversaire a toutes ses pièces bloquées
 \end{itemize}
-Une fois cela fait il nous suffit de mettre en place le plateau avec nos différentes images \cite{annexe1}. Voici donc à quoi ressemble le plateau et les pièces après le premier coup des blancs.
+\item une partie est nul quand:
+\begin{itemize}
+\item s'il y a 30 coups sans prise
+\end{itemize}
+\end{itemize}
 
-\begin{center}
-\includegraphics[scale=0.4]{plateau-ini}
-\end{center}
+\section{Modélisation du jeu de dame}
 
-afin de mieux pouvoir voir ce qu'il ce passe il a fallut mettre en place la possibilité de mettre en pause le jeu\cite{annexe2} pour s'arreter et comprendre au mieux comment le programme fonctionne, nous verrons par la suite des exemples précis de comportement. \\
+Nous avons opté pour une conceptualisation distribuée et décentralisée où 2 IAs principales vont coordonner le tour de rôle de chaque équipe ainsi que le nombre maximum de pions qui vont se déplacer. Le choix de l’action reste aux pions. Chaque pion sera déplacé en fonction du coup le moins risqué qu’il a à sa disposition, ce qui est assuré par l’algorithme MinMax. 
 
-\subsection{Stratégie Naive}
-Avant de pouvoir commencer à aller loin dans la modélisation distribuée nous avons du faire une stratégie naive qui consiste simplement à faire jouer l'IA le plus simplement possible sans aucune réflexion de sa part. Nous sommes partie sur le principe que l'IA jouera le maximum de pions possible pour chaque coups. Dans un premier temps elle regardera les coups obligatoires à faire comme la prise et jouera toute les prises, si il lui reste des mouvements possible elle devra alors regarder chaque pièce non déplacé si elle peut les déplacer. Si oui alors elle la joue qu'importe si le mouvement est mauvais ou non jusqu'à ne plus avoir de mouvement possible à jouer. cette stratégie naive nous servira de base pour créer une stratégie plus performante par la suite.
+\subsection{Calcul du meilleur coup pour une pièce}
 
-\subsection{Amélioration de la prise}
+Chaque pion a la possibilité de choisir une action à faire qu’il va prendre en fonction de son propre environnement. De plus, il va mesurer tous ses possibilités et va exécuter le coup le plus avantageux pour lui. 
+
+\begin{figure}
+\caption{le pion a devant lui 2 cases libres.}
+\label{fig_sim}
+\centering
+\subfloat[Dans ce cas on fait un tirage aléatoire pour choisir une case.]
+{
+\includegraphics[width=2in]{1Q}
+\label{paysage}
+}
+\end{figure}
+
+\begin{figure}
+\caption{ l’un des pions marrons a toujours le choix entre les 2 cases libres sauf que cette fois on va mettre en priorité de ne pas rester coincé.}
+\label{fig_sim}
+\centering
+\subfloat[Donc ce pion va abandonner la stratégie initiale aléatoire et ne vas pas risquer de se faire bloqué en choisissant l’autre case libre sans ce risque.]
+{
+\includegraphics[width=2in]{2}
+\label{paysage}
+}
+\end{figure}
+
+\begin{figure}
+\caption{le pion à un choix égale de prise.}
+\label{fig_sim}
+\centering
+\subfloat[ On va opter dans ce cas pour une prise dans la direction du territoir de l’ennemi.]
+{
+\includegraphics[width=2in]{3}
+\label{paysage}
+}
+\end{figure}
+
+\begin{figure}
+\caption{représente le cas où le pion peut prendre 1 ou 2 ennemis.}
+\label{fig_sim}
+\centering
+\subfloat[ Il va choisir le coup le plus avantageux sans tenir compte de la direction d'avancement comme dans la Figure 3.]
+{
+\includegraphics[width=2in]{3}
+\label{paysage}
+}
+\end{figure}
 
 
-\subsection{Amélioration du déplacement}
-Il y avait comme soucis majeur le choix des pièces à déplacer une fois les coups obligatoires joué. Nous avons donc du réfléchir à comment faire pour éviter les mouvements mauvais (qui nous font perdre des pièces juste après). Pour ce faire nous avons cherché des algorithmes connu qui sont utilisé pour ce genre de problème. C'est le cas de l'algorithme min-max qui nous a inspiré. Le but est de tester à chaque fois qu'on prévoit de déplacer une pièce si cela est risqué pour elle ou non. Pour ce faire nous avons eu besoin de créer une fonction récursive qui test si la pièce que l'on veut jouer sera en danger si on l'a joue. Cela fait partie de la première étape de la fonction car le but de l'algorithme min-max est de fabriquer un arbre de toutes les possibilitées possible de mouvement et de déscendre le plus possible en profondeur. Le problème entant que l'arbre devient extrémement grand très rapidement. Exemple si on peut déplacer 10 pièce différentes et chacune à deux position différentes on aura un arbre degrès 20 sur le noeud racine mais cela ne s'arrete pas la car si on veut déscendre d'un cran et voir le déplacement que l'adversaire pourrait faire en réponse alors on a pour chaque neud touts les mouvements possible de l'adversaire et rappelon que nous donné la possibilité de déplacer au choix 1 à N pièce par coups ce qui augmente le nombre de déplacement adversaire possible et donc augmente la taille de l'arbre. C'est pour cet raison que nous avons voulu limité notre parcoure en profondeur de l'arbre et la façon dont nous cherchons dans l'arbre. au lieu de simuler tous l'arbre puis de chercher dedans nous le simulon petit à petit et nous arrêtons des que l'ont a trouvé un mouvement satisfaisant. Pour ce faire nous prenons les pièces une à une et quand elle peut ce déplacer alors nous testons si après avoir fait ce déplacement elle risque de se faire prendre par l'adversaire et si c'est le cas alors nous la jouons pas. au contraire si elle peut ce déplacer sans risque alors elle est joué et nous arretons de vérifier des que nous avons joué le nombre maximum de pièce possible dans notre coup ce qui fait que nous créons que petit à petit l'abre des coups possible afin de limiter la taille de celui ci. Bien sur cela implique des limites car certaines fois un coups sans risque par rapport à un autre est plus efficace.
+\subsection{Calcul du coup risqué pour une pièce}
 
-\subsection{Amélioration du pistage du risque}
-Nous avons vite remarquer des problèmes avec notre algorithme et surtout 1 majeur qui est que déplacer une pièce sans risque peut créer des risques sur une autre pièces ailleurs sur le plateau et cela n'est pas acceptable pour avoir une stratégie performante. Nous avons donc du réfléchir à comment faire pour éviter cela. Pour ce faire il a fallut faire communiquer toutes les pièces d'un même camps entre elle afin de tester si jouer un coup en particulier rendait une pièce sensible à la prise adversaire. Il a fallut alors tester toute les pièces pour chaque tantative de déplacement et à chaque fois aller plus loin qu'un seul coup. On voit ici encore mieux le problème de complexité qui peut très vite explosé si on essaye d'aller encore plus en profondeur. En plus de ce problème un autre important était à corriger. Si un pièce est déjà en position de risque avant même de tester si un coup était risqué ou non cela faisait qu'on ce retrouvait dans une situation bloqué ou n'importe qu'elle mouvement est risquer. Nous avons donc eu l'idée ici de rajouter un compteur et de compter le nombre de risque avant de tester des déplacements et de la comparer avec le nombre de risque trouvé après un déplacement. Cet façon de faire permettrai en plus par la suite de pouvoir réduire les risques en choisissant en prioriter les mouvements qui permette d'avoir moins de risque qu'au départ. Ces deux problèmes nous on permit de mieux comprendre comment faire pour que toutes les pièces d'un même joueur communique entre elle afin de trouver la meilleurs chose à faire. Cela à aussi nettement amélioré les capacitées de notre stratégie à éviter les erreurs et les coups sans aucun sens
+En s’inspirant de l’algorithme MinMax nous avons décidé de calculer pour chaque pièce le coup le moins risqué qu’elle peut effectuer. Avec l’algorithme qu’on a mis en place, il est possible de prévoir un coup en tenir compte de 2 prochains coups en avance. 
+Il y a plusieurs approches pour apprécier le score d’un coup
+\begin{itemize}
+\item si une pièce a le choix de se déplacer, on va tenir compte si au tour suivant elle ne se fait pas prendre
+\begin{itemize}
+\item si elle sera prise, elle choisira l’autre option moins risqué s’il existe
+\item sinon elle avance
+\end{itemize}
+\item si une pièce peut prendre un ou plusieurs ennemis mais qu’elle se fait mangée au tour suivant, on va considérer ce coup risqué si le nombre de pions mangés est plus grande ou égal au nombre de pions que l’ennemi va prendre à son tour
+\item si aucune possibilité de déplacement non risqué est possible, alors il se déplace vers une position risquée
+\end{itemize}
 
-\subsection{Les Amélioration manquantes}
-Même si nous avons bien améliorer notre pistage du risque il nous manque encore des améliorations qui auraient était possible et dont nous allons vous parlez. Dans notre pistage du risque nous n'avons pas fait en sorte de mêttre une valeur au risque possible par exemple un mouvement de pièce qui permet à l'adversaire de faire une prise double (pouvoir prendre deux pièces en un mouvement) est bien plus grave qu'un mouvement qui permet à l'advesaire de faire une simple prise. Nous aurions pu prendre ça en compte en m'étant un compteur du nombre de pièce perdu après un mouvement risqué et en testant toutes les pièces qui peuvent ce déplacer voir si on obtient moins que ce compteur et si c'est le cas alors on choisit la pièce avec un compteur plus faible pour la déplacer. En plus de ce genre de risque il y aussi le fait que donner la possibilité à une pièce adversaire de faire une dames au tour d'après sans risque et très désavantageux pour nous ici pour régler ce problème nous aurions du m'ettre un boolean qui ce met à true si l'adversaire peut faire une dame sans risque après notre coup et donc ne pas jouer au maximum ce mouvement très dangereux. Enfin nous aurions aussi pu essayer d'aller plus en profondeur et voir plus loin dans le risque, cela aurait ajouter beaucoup de complexité et ralentit notre algorithme mais l'aurait rendu bien plus solide et moins risqué. 
+Un compteur a été ajouté pour éviter les situations bloquantes où une pièce se trouve déjà sur une position risquée. Son but est de compter le nombre de risque avant de tester des déplacements et de la comparer avec le nombre de risque retrouvé après un déplacement. 
+
+\subsection{Strategies collectives}
+
+Une remarque intéressante à faire serait que le déplacement sans risque d’une pièce peut créer des risques sur une autre pièce ailleurs sur le plateau. Par conséquent, toutes les pièces d'une même équipe vont coopérer entre elles afin de tester si un coup en particulier rendrait une pièce vulnérable à la prise adversaire. Cela est possible en testant toutes les pièces pour chaque tentative de déplacement et à chaque fois aller plus loin qu'un seul coup.  
+La complexité va augmenter vite à chaque fois qu’on va calculer un coup de plus en avance, étant donnée qu’on va aller plus en profondeur de l’arbre MinMax de possibilités.
+Le problème étant que l'arbre devient extrêmement grand très rapidement.
+
+
+\subsection{Implémentation de l’algorithme}
+
+A chaque fois qu'on prévoit de déplacer une pièce, nous fabriquons un arbre avec toutes les possibilitées de mouvement et on descend le plus possible en profondeur à l’aide d’une fonction récursive. Le but est de tester si ce mouvement sera risqué ou non. 
+Comme la simulation de l’arbre entier est très coûteux en mémoire, nous limitons notre parcours en profondeur et la façon dont nous cherchons dans l'arbre afin d’optimiser. Au lieu de créer tout l'arbre puis de chercher dedans, on va petit à petit le créer et on va s’arrêter dès qu'un mouvement satisfaisant est trouvé. 
+La démarche à suivre sera de prendre les pièces qui ont un choix de déplacement et tester si après avoir réalisé ce déplacement elles risquent de se faire prendre par l'adversaire.
+Si c'est le cas alors les pièces ne bougent pas. Au contraire, si elles peuvent se déplacer sans risque alors elles avancent et nous arrêtons l’avancement de l’arbre. 
+Cela implique des limites car il y a certains cas où un coup sans risque par rapport à un autre est plus efficace.
+
+\subsection{Interface graphique}
+
+Nous avons donné un aspect graphique au jeu afin de mieux voir ce qui se passe pendant le déroulement du programme. Dans l’annexe 1 à gauche il y a le plateau de dames accompagné d’une échelle horizontale avec des lettres et une échelle verticale avec de chiffres pour identifier mieux les cases. 
+A droite nous disposons d’un panneau de debug qui permet de voir à chaque tour qui quelles pièces se sont déplacées. Dans la Figure 5 on peut voir un extrait du panneau. La police gris représente les pions blancs et la police rouge les autres pions adverses. “Ph x” signifie le ième tour sachant que pendant un tour les 2 équipes vont faire leurs mouvements. “4E” et “6C” sont les anciennes positions de ces 2 pions et  “5F”, “7B” sont leurs nouvelles positions. “(D)” ou “(P)” signifie le type de mouvement, D pour le déplacement et P pour la prise.
+
+\begin{figure}[!ht]
+\caption{exemple.}
+\label{fig_sim}
+\centering
+{
+\includegraphics[width=2in]{6}
+\label{paysage}
+}
+\end{figure}
+
+\subsection{Améliorations possibles et limitations}
+Une amélioration est possible dans la recherche de risque. Nous aurions pu aussi prendre en compte le nombre de pièces perdues après un mouvement risqué pour faire un meilleur choix de déplacement.
+De plus, nous aurions pu essayer d'aller plus en profondeur et voir plus loin dans le risque, mais cela aurait ajouté beaucoup de complexité et aurait ralenti notre algorithme mais l'aurait rendu bien plus solide et moins risqué. Le problème étant que l'arbre devient extrêmement grand très rapidement.
+
+
 
 \section{Conclusion}
-Nous avons comme le cahier des charges prévoyait bien crée un modéle distribuée adapté à un jeu de dame. La stratégie crée est performante pour jouer mieux que la version naïve basique grâce aux amélioration mise en place comme l'amélioration de la prise ou encore la vérification du risque à chaque tantative des différents mouvements possible. Grâce au système multi-agents nous avons pu atteindre ces objectifs car cela à permit d'avoir chaque pièce du jeu idépendante et elle pouvait communiquer entre elle pour mieux réussir dans leurs objectifs. Ce projet à permis de mieux voir la puissance et l'importance des modéles distribuées quand nous simulons plusieurs élément qui doivent comuniquer entre eux pour avancée dans un environement aux règles stricts.
+
+Nous avons bien créé une conceptualisation distribuée et adaptée à un jeu de dame personnalisé. Les stratégies implémentées sont performantes étant donnée qu’elles tiennent compte du meilleur coup de la pièce et estiment en même temps le risque d’un tel mouvement. De plus, les pièces peuvent facilement coopérer entre elles et minimiser le risque de toute l’équipe, ce qui les a rendu plus indépendantes.
+Le choix d’un algorithme inspiré par le MinMax, nous a limité le nombre de coups possibles à prévoir en avance. Par conséquent, plus on améliore le calcul du coup optimal, plus on augmente dans la complexité.
+Ce projet à permis de mieux voir la puissance et l'importance des modélisations distribuées dans le cas où il faut simuler plusieurs agents qui doivent communiquer entre eux pour avancer dans un environnement aux règles stricts et atteindre un objectif commun.
+
+\section{Annexes}
+\begin{figure}[!ht]
+\caption{exemple de l'interface complet}
+\label{fig_sim}
+\centering
+{
+\includegraphics[width=6in]{5}
+\label{paysage}
+}
+\end{figure}
+
+
 
 \end{document}
