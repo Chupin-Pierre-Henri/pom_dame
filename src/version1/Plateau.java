@@ -197,28 +197,28 @@ public class Plateau {
                 && !piecesVisees.contains((((CaseBlanche) cases[i + 1][j + 1]).getPiece()))) {
             piecesPrioritaires.add(p);
             piecesVisees.add(((CaseBlanche) cases[i + 1][j + 1]).getPiece());
-            coupsRestants--;
+            //coupsRestants--;
         }
         //en haut à gauche
         else if (posPossible(i,j,1,2,1) && peutPrendre(p.getCouleur(), i + 1, j - 1, i + 2, j - 2, false)
                 && !piecesVisees.contains(((CaseBlanche) cases[i + 1][j - 1]).getPiece())) {
             piecesPrioritaires.add(p);
             piecesVisees.add(((CaseBlanche) cases[i + 1][j - 1]).getPiece());
-            coupsRestants--;
+            //coupsRestants--;
         }
         //en bas à droite
         else if (posPossible(i,j,1,3,1)  && peutPrendre(p.getCouleur(), i - 1, j + 1, i - 2, j + 2, false)
                 && !piecesVisees.contains(((CaseBlanche) cases[i - 1][j + 1]).getPiece())) {
             piecesPrioritaires.add(p);
             piecesVisees.add(((CaseBlanche) cases[i - 1][j + 1]).getPiece());
-            coupsRestants--;
+            //coupsRestants--;
         }
         //en bas à gauche
         else if (posPossible(i,j,1,4,1) && peutPrendre(p.getCouleur(), i - 1, j - 1, i - 2, j - 2, false)
                 && !piecesVisees.contains(((CaseBlanche) cases[i - 1][j - 1]).getPiece())) {
             piecesPrioritaires.add(p);
             piecesVisees.add(((CaseBlanche) cases[i - 1][j - 1]).getPiece());
-            coupsRestants--;
+            //coupsRestants--;
         }
 
         Iterator it = piecesVisees.iterator();
@@ -237,7 +237,7 @@ public class Plateau {
                     && !piecesVisees.contains((((CaseBlanche) cases[i + x][j + x]).getPiece()))) {
                 piecesPrioritaires.add(p);
                 piecesVisees.add(((CaseBlanche) cases[i + x][j + x]).getPiece());
-                coupsRestants--;
+                //coupsRestants--;
                 break;
             }
             //le coté haut gauche +i et -j
@@ -245,7 +245,7 @@ public class Plateau {
                     && !piecesVisees.contains(((CaseBlanche) cases[i + x][j - x]).getPiece())) {
                 piecesPrioritaires.add(p);
                 piecesVisees.add(((CaseBlanche) cases[i + x][j - x]).getPiece());
-                coupsRestants--;
+                //coupsRestants--;
                 break;
             }
             //le coté bas droite -i et +j
@@ -253,7 +253,7 @@ public class Plateau {
                     && !piecesVisees.contains(((CaseBlanche) cases[i - x][j + x]).getPiece())) {
                 piecesPrioritaires.add(p);
                 piecesVisees.add(((CaseBlanche) cases[i - x][j + x]).getPiece());
-                coupsRestants--;
+                //coupsRestants--;
                 break;
             }
             //le coté bas gauche -i et -j
@@ -261,7 +261,7 @@ public class Plateau {
                     && !piecesVisees.contains(((CaseBlanche) cases[i - x][j - x]).getPiece())) {
                 piecesPrioritaires.add(p);
                 piecesVisees.add(((CaseBlanche) cases[i - x][j - x]).getPiece());
-                coupsRestants--;
+                //coupsRestants--;
                 break;
             }
         }
@@ -297,21 +297,33 @@ public class Plateau {
 
             if (!p.isDame()) {
                 if (joueur == p.getCouleur()) {
-                    switch (strategie){
-                        case 0: prise_piece(p, i, j, 1,false);
-                            break;
-                        case 1: calculMeilleurCoup(i, j, p,1);
-                            break;
+                    if ((posPossible(i,j,1,1,1) && peutPrendre(p.getCouleur(), i + 1, j + 1, i + 1 + 1, j + 1 + 1, false)) || (posPossible(i,j,1,2,1) && peutPrendre(p.getCouleur(), i + 1, j - 1, i + 1 + 1, j - 1 - 1, false)) || (posPossible(i,j,1,3,1) && peutPrendre(p.getCouleur(), i - 1, j + 1, i - 1 - 1, j + 1 + 1, false)) || (posPossible(i,j,1,4,1) && peutPrendre(p.getCouleur(), i - 1, j - 1, i - 1 - 1, j - 1 - 1, false))) {
+                        coupsRestants--;
+                        switch (strategie) {
+                            case 0:
+                                prise_piece(p, i, j, 1, false);
+                                break;
+                            case 1:
+                                calculMeilleurCoup(i, j, p, 1);
+                                break;
+                        }
                     }
                 }
             }
             else{
                 for (int x=1; x<=3; x++) {
-                    switch (strategie){
-                        case 0: prise_piece(p, i, j, x,false);
-                            break;
-                        case 1: calculMeilleurCoup(i, j, p, x);
-                            break;
+                    if (joueur == p.getCouleur()) {
+                        if ((posPossible(i,j,x,1,1) && peutPrendre(p.getCouleur(), i + x, j + x, i + 1 + x, j + 1 + x, false)) || (posPossible(i,j,x,2,1) && peutPrendre(p.getCouleur(), i + x, j - x, i + 1 + x, j - 1 - x, false)) || (posPossible(i,j,x,3,1) && peutPrendre(p.getCouleur(), i - x, j + x, i - 1 - x, j + 1 + x, false)) || (posPossible(i,j,x,4,1) && peutPrendre(p.getCouleur(), i - x, j - x, i - 1 - x, j - 1 - x, false))) {
+                            coupsRestants--;
+                            switch (strategie) {
+                                case 0:
+                                    prise_piece(p, i, j, x, false);
+                                    break;
+                                case 1:
+                                    calculMeilleurCoup(i, j, p, x);
+                                    break;
+                            }
+                        }
                     }
                 }
             }
