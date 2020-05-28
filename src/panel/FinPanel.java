@@ -14,6 +14,10 @@ public class FinPanel extends JPanel {
         this.joueur = joueur;
     }
 
+    /**
+     * fait l'affichage et avec le texte en fonction du résultat de la partie
+     * @param g le graphique
+     */
     public void paintComponent(Graphics g) {
         g.setFont(new Font("SansSerif", Font.PLAIN, 25));
         g.drawString("La partie est finie.", 140, 50);

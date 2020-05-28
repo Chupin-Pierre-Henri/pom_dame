@@ -22,10 +22,18 @@ public class CaseBlanche extends Case {
 
     }
 
+    /**
+     * permet de récupérer la piece sur la case blanche
+     * @return la pièce présente sur la case
+     */
     public Piece getPiece() {
         return piece;
     }
 
+    /**
+     * change la pièce sur la case
+     * @param piece la nouvelle pièce de la case
+     */
     public void setPiece(Piece piece) {
         this.piece = piece;
         if (piece != null) {
@@ -33,6 +41,10 @@ public class CaseBlanche extends Case {
         }
     }
 
+    /**
+     * permet de savoir si la case est vide de pièce ou non
+     * @return true si la case est libre et false si elle est occupé par une pièce
+     */
     public boolean isLibre() {
         return piece == null;
     }

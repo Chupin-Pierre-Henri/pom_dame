@@ -25,6 +25,10 @@ public class Jeu {
         Jeu jeu = new Jeu();
     }
 
+    /**
+     * lance le jeu de dames
+     * @throws InterruptedException
+     */
     public void jouer() throws InterruptedException {
         int turn = -2;
 
@@ -53,6 +57,9 @@ public class Jeu {
         finPartie();
     }
 
+    /**
+     * affiche la fin de la partie
+     */
     public void finPartie() {
 
         FinFrame frame;

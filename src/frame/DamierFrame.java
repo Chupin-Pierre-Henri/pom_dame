@@ -147,6 +147,11 @@ public class DamierFrame extends JFrame {
 
     }
 
+    /**
+     * permet d'avoir le nom de la colonne j
+     * @param i la colonne
+     * @return la lettre correspondant à la colonne
+     */
     public String giveIdx(int i) {
         switch (i) {
             case 0:
@@ -174,10 +179,20 @@ public class DamierFrame extends JFrame {
         }
     }
 
+    /**
+     * augmente la phase de 1
+     */
     public void miseAJourPhase() {
         phase++;
     }
 
+    /**
+     * mais à jour le panel des coups joué
+     * @param pred la case précédente
+     * @param suiv la case suivante
+     * @param isPris true si il y a eu une prise false sinon
+     * @param mange la case de la pièce prise
+     */
     public void miseAJourPanelDebug(Case pred, Case suiv, boolean isPris, Case mange) {
 
         String n = "Ph " + phase + ": " + (pred.getLigne() + 1) + giveIdx(pred.getColonne()) + " -> " + (suiv.getLigne() + 1) + giveIdx(suiv.getColonne());
@@ -197,41 +212,58 @@ public class DamierFrame extends JFrame {
         debug.add(newText);
     }
 
-    //enleve un point au score du joueur
+    /**
+     * enleve un point au score du joueur1
+     */
     public void changeScoreJ1() {
         this.entScoreJ1 += 1;
         scoreJ1.setText(Integer.toString(entScoreJ1));
     }
 
-    //enleve un point au score de l'ordi
+    /**
+     * enleve un point au score du joueur2
+     */
     public void changeScoreJ2() {
         this.entScoreJ2 += 1;
         scoreJ2.setText(Integer.toString(entScoreJ2));
     }
 
-    //enleve un pion au joueur
+    /**
+     * enleve un pion au joueur1
+     */
     public void changeNbPionJ1() {
         this.entNbPionJ1 -= 1;
         nbPionJ1.setText(Integer.toString(entNbPionJ1));
     }
 
-    //enleve un pion a l'ordi
+    /**
+     * enleve un pion au joueur2
+     */
     public void changeNbPionJ2() {
         this.entNbPionJ2 -= 1;
         nbPionJ2.setText(Integer.toString(entNbPionJ2));
     }
 
-    //permet de récupere le score du joueur
+    /**
+     * permet de récupere le score du joueur1
+     * @return le score du Joueur 1
+     */
     public int getScoreJ1() {
         return this.entNbPionJ1 + 3 * this.entScoreJ1;
     }
 
-    //permet de récupérer le score de l'ordi
+    /**
+     * permet de récupere le score du joueur2
+     * @return le score du Joueur 2
+     */
     public int getScoreJ2() {
         return this.entNbPionJ2 + 3 * this.entScoreJ2;
     }
 
-    //pour rafraichir le damier avec le nouveau tableau
+    /**
+     * rafraichi le damier avec le nouveau tableau
+     * @param mat la plateau à rafraichir
+     */
     public void rafraichir(Plateau mat) {
         damPanel.rafraichir(mat);
         //damPanel.repaint();
