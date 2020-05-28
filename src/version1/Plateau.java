@@ -23,7 +23,11 @@ public class Plateau {
         initialiserJeu();
     }
 
-//a verifier
+    /**
+     * Permet de copier le plateau actuelle dans un plateau temporaire
+     * @param casesTmp plateau temporaire crée
+     * @param cases plateau qui va être copié
+     */
     public void cloneCases(Case casesTmp[][],Case cases[][]){
         int i,j;
 
@@ -34,6 +38,9 @@ public class Plateau {
         }
     }
 
+    /**
+     * Initialise le Jeu en plaçant les pions blanc et noir à leurs place initial
+     */
     public void initialiserJeu() {
         int i,j;
         int zoneBlancs = 4;
@@ -102,6 +109,14 @@ public class Plateau {
         }
     }
 
+    /**
+     * Déplace un piece p vers une nouvelle position
+     * @param p la pièce qui va être déplacé
+     * @param iCour l'indice i où se trouve la pièce à déplacer
+     * @param jCour l'indice j où se trouve la pièce à déplacer
+     * @param iNew l'indice i de la nouvelle position de la pièce à déplacer
+     * @param jNew l'indice j de la nouvelle position de la pièce à déplacer
+     */
     public void deplacePiece(Piece p, int iCour, int jCour,int iNew, int jNew){
 
         frame.miseAJourPanelDebug(cases[iCour][jCour], cases[iNew][jNew], false, null);
@@ -121,6 +136,15 @@ public class Plateau {
        // }
     }
 
+    /**
+     * Prend un pièce adversaire normalement mais si le paramètre verification est présent alors il le simule grâce à pièceTmp et caseTmp
+     * @param p la pièce qui prend
+     * @param iEnemi l'indice i où se trouve l'adversaire
+     * @param jEnemi l'indice j où se trouve l'adversaire
+     * @param iNew le nouvel indice i de notre pièce p
+     * @param jNew le nouvel indice j de notre pièce p
+     * @param verification si il est false alors fait la prise classique sinon simule la prise avec pieceTmp et casTmp
+     */
     public void prendsPiece(Piece p, int iEnemi, int jEnemi,int iNew, int jNew, boolean verification){
 
         //if (!Jeu.paused.get()){
@@ -157,7 +181,11 @@ public class Plateau {
        // }
     }
 
-
+    /**
+     * Permet de vérifier si un pièce peut prendre plusieurs pièces en un coups
+     * @param p la pièce que l'on vérifie
+     * @param verification si il est à false alors c'est qu'on fait un vrai vérification avec la pièce p sinon si il est à true alors on utilise pieceTmp pour simuler la vérification
+     */
     public void verificationDautresCoups(Piece p, boolean verification){
         int i,j;
         if (!verification){
@@ -170,6 +198,16 @@ public class Plateau {
         prise_piece(p, i, j, 1, verification);
     }
 
+    /**
+     * vérifie si la prise est possible pour des positions donné soit de façon concraite soit simuler avec pieceTmp
+     * @param coul la couleur de la pièce qui veux prendre
+     * @param iEnemi l'indice i de la pièce adverse
+     * @param jEnemi l'indice j de la pièce adverse
+     * @param iNew l'indice i vers le qu'elle la pièce irait si elle prenait la pièce adverse
+     * @param jNew l'indice j vers le qu'elle la pièce irait si elle prenait la pièce adverse
+     * @param verification si false alors on teste avec des pièces concraite sinon on simule avec pieceTmp
+     * @return
+     */
     public boolean peutPrendre(int coul, int iEnemi, int jEnemi,int iNew, int jNew, boolean verification){
 
         if (!verification){
@@ -189,6 +227,13 @@ public class Plateau {
         }
     }
 
+    /**
+     * liste les coups obligatoires (les prises) pour les pions
+     * @param piecesPrioritaires la liste des pièces prioritaires à jouer
+     * @param i l'indice i de la pièce tester
+     * @param j l'indice j de la pièce tester
+     * @param p la pièce tester
+     */
     public void calculCoupObligatoirePion(ArrayList<Piece> piecesPrioritaires, int i, int j, Piece p){
         ArrayList<Piece> piecesVisees = new ArrayList<Piece>();
 
@@ -228,6 +273,13 @@ public class Plateau {
         }
     }
 
+    /**
+     * liste les coups obligatoires (les prises) pour les dames
+     * @param piecesPrioritaires la liste des pièces prioritaires à jouer
+     * @param i l'indice i de la pièce tester
+     * @param j l'indice j de la pièce tester
+     * @param p la pièce tester
+     */
     public void calculCoupObligatoireDame(ArrayList<Piece> piecesPrioritaires, int i, int j, Piece p){
         ArrayList<Piece> piecesVisees = new ArrayList<Piece>();
 
@@ -267,6 +319,12 @@ public class Plateau {
         }
     }
 
+    /**
+     * effectue les coups obligatoires à faire à chaque début de tour
+     * @param piecesPrioritaires la liste des pièces prioritaire à jouer
+     * @param joueur si 2 alors c'est el joueur des blancs si -2 alors c'est le joueur des noirs
+     * @param strategie la stratégie utilisé ici nous utilison la 1
+     */
     public void coupObligatoire(ArrayList<Piece> piecesPrioritaires, int joueur, int strategie){
         Iterator it = pieces.iterator();
 
@@ -330,14 +388,16 @@ public class Plateau {
         }
     }
 
-
-
-
-    /*System de points
-Nb de ennemis pris:
-    - si egalite, alors on met en priorite l'avancement vers le territoir de l'enemi que le retour
-    ?- si 2 pions amis peuvent prendre le meme ennemi, on prioritise celui qui mange plus ou qui ne se fait pas mange
-*/
+    /**
+     * on calcul le meilleur coup possible à jouer, le system de points est
+     * Nb de ennemis pris:
+     *  - si egalite, alors on met en priorite l'avancement vers le territoir de l'enemi que le retour
+     *  - si 2 pions amis peuvent prendre le meme ennemi, on prioritise celui qui mange plus ou qui ne se fait pas mange
+     * @param i l'indice i de la pièce p
+     * @param j l'indice j de la pièce p
+     * @param p la pièce p pour la qu'elle on calcul son meilleur coup
+     * @param c la distance à parcouru pour la prise, pour les pions c'est toujours 1 et pour les dames c'est de 1 à 3
+     */
     public void calculMeilleurCoup(int i, int j, Piece p, int c){
         //la cle est la type de position sur la grille(1,2,3 ou 4) et la valeurs est le nb de pions manges
         HashMap<Integer, Integer> scorePieces = new HashMap<Integer, Integer>();
@@ -428,6 +488,14 @@ Nb de ennemis pris:
 
     }
 
+    /**
+     * permet de faire un prise de pièce et de compter le nombre de pièce manger par la pièce p
+     * @param p la pièce p qui mange
+     * @param i l'indice i de la pièce p
+     * @param j l'indice j de la pièce p
+     * @param c la distance à parcouru pour la prise, pour les pions c'est toujours 1 et pour les dames c'est de 1 à 3
+     * @param verification si false alors on est sur un vrai prise et si true alors on simule avec pieceTmp afin de compter combien de pions un pièce peu prendre pour le comparer aux autres pièces
+     */
     private void prise_piece(Piece p, int i, int j, int c, boolean verification) {
         if (posPossible(i,j,c,1,1) && peutPrendre(p.getCouleur(), i + c, j + c, i + 1 + c, j + 1 + c, verification)) {
             p.addPionsManges();
@@ -471,6 +539,12 @@ Nb de ennemis pris:
         return false;
     }
 
+    /**
+     * Change la position de façon temporaire d'une pièce
+     * @param p la pièce qu'on change de position dans le plateau temporaire
+     * @param iNew le nouvelle indice i de la pièce déplacé
+     * @param jNew le nouvelle indice j de la pièce déplacé
+     */
     public void change_Pos_Tmp(Piece p, int iNew, int jNew){
 
         ((CaseBlanche)casesTmp[p.getPosition().getLigne()][p.getPosition().getColonne()]).setPiece(null);
@@ -478,6 +552,14 @@ Nb de ennemis pris:
     }
 
 
+    /**
+     * Une fois les coups obligatoires effectué si l'on peut encore effectuer des déplacements alors on regarde les qu'elle faire et on vérifie si ils sont risqué ou non avant de les jouer
+     * @param piecesPrioritaires liste des pièces prioritaires à déplacer
+     * @param piecesRestantes liste des pièces qui ne sont pas prioritaires
+     * @param joueur le joueur qui joue 2 pour les blancs et -2 pour les noirs
+     * @param cherche_risque es ce que l'on regarde si le coup est risqué ou non si à false c'est qu'on à encore rien jouer et que tous les coups sont risqués donc qu'il faut jouer un coup risqué au minimum
+     * @param pionsABouger nombre de pions que l'on peut déplacer en tout à chaque coups
+     */
     public  void choixPieceADeplacer(ArrayList<Piece> piecesPrioritaires, ArrayList<Piece> piecesRestantes, int joueur, boolean cherche_risque, int pionsABouger){
         Iterator it = piecesRestantes.iterator();
         boolean jouer = true;
@@ -643,12 +725,13 @@ Nb de ennemis pris:
     }
 
     /**
+     * on regarde combien de pièce sont en position risqué pour un position de plateau donnée, si on simule un déplacement de pièce alors on utilise sa nouvelle position dans les paremètres
      * @param i la position i ou on ce retrouve après avoir jouer le coup
      * @param j la position j ou on ce retrouve après avoir jouer le coup
      * @param coul la couleur de notre pion
-     * @param pos la position d'ou l'on vient avec le pion
+     * @param pos la position d'où l'on vient avec le pion
      * @param verification permet de rappeller la fonction pour savoir si on joue et si on ce fait prendre es ce que l'on peut reprendre la pièce adversaire et donc ne pas être coup risquer
-     * @return true si on peut ce faire prendre sans reprendre derrière par l'adversaire et donc évité au maximum de jouer ce coup
+     * @return Le nombre de pièce en position risqué
      */
     int coup_risquer(int i, int j, int coul, int pos, boolean verification, int nbPrise, int non_i,int non_j){
         int nbRisqueTmp = 0;
@@ -674,6 +757,11 @@ Nb de ennemis pris:
         return nbRisqueTmp;
     }
 
+    /**
+     * on regarde si la pièce p est contenue dans casesTmp
+     * @param p la pièces à tester
+     * @return true si la pièces et contenue dans casesTmp
+     */
     boolean containePiecetmp(Piece p){
         boolean containe = false;
         if(((CaseBlanche)casesTmp[p.getPosition().getLigne()][p.getPosition().getColonne()]).getPiece() != null){
@@ -683,11 +771,13 @@ Nb de ennemis pris:
     }
 
     /**
-     * @param i la position i ou on ce retrouve après avoir jouer le coup
-     * @param j la position j ou on ce retrouve après avoir jouer le coup
+     * calcul pour une pièce si elle est en position de risque où non cet fonction est récursive car on teste si une fois que l'adversaire nous à pris si on peut le reprendre et donc annulé le risque du coup
+     * @param i la position i de la pièce
+     * @param j la position j de la pièce
      * @param coul la couleur de notre pion
      * @param pos la position d'ou l'on vient avec le pion
      * @param verification permet de rappeller la fonction pour savoir si on joue et si on ce fait prendre es ce que l'on peut reprendre la pièce adversaire et donc ne pas être coup risquer
+     * @param nbPrise permet de savoir combien de pièce l'adversaire peut nous prendre et permet de le comparer au nombre de pièce que l'on peut lui prendre en retour
      * @return true si on peut ce faire prendre sans reprendre derrière par l'adversaire et donc évité au maximum de jouer ce coup
      */
     boolean pos_risquer(int i, int j, int coul, int pos, boolean verification, int nbPrise){
@@ -954,6 +1044,14 @@ Nb de ennemis pris:
         return risquer;
     }
 
+    /**
+     * lance l'action de déplacer une pièce p
+     * @param p la pièce à déplacer
+     * @param i l'indice i de la pièce
+     * @param j l'indice j de la pièce
+     * @param x la distance de déplacement 1 pour les pions et 1 à 3 pour les dames
+     * @param pos 1,2,3 ou 4 en fonction de la diagonale de déplacement
+     */
     void actionPiece(Piece p, int i, int j, int x, int pos){
         switch (pos){
             case 1: deplacePiece(p, i, j, i + x, j + x);
@@ -969,6 +1067,11 @@ Nb de ennemis pris:
         coupsRestants--;
     }
 
+    /**
+     * filtres les pièces en retirant de pièces Prioritaires les pièces restantes
+     * @param piecesPrioritaires la liste des pièces prioritaires
+     * @param piecesRestantes la liste des pièces restantes
+     */
     public void filtrerLesPieces(ArrayList<Piece> piecesPrioritaires, ArrayList<Piece> piecesRestantes){
         piecesRestantes.clear();
         Iterator it = pieces.iterator();
@@ -979,6 +1082,12 @@ Nb de ennemis pris:
         }
     }
 
+    /**
+     * Création de la stratégie à jouer
+     * @param joueur le joueur qui joue avec cette stratégie
+     * @param pionsABouger le nombre de pions à bouger par coups
+     * @param frame le damier dans le qu'elle on évolue
+     */
     public void strategieNaive(int joueur, int pionsABouger, DamierFrame frame){
 
         this.frame = frame;
@@ -998,18 +1107,37 @@ Nb de ennemis pris:
        // }
     }
 
+    /**
+     * récupère la case au indice i et j
+     * @param i l'indice i de la case
+     * @param j l'indice j de la case
+     * @return
+     */
     public Case getCase(int i, int j){
         return cases[i][j];
     }
 
+    /**
+     * change le nombre de coups restant à jouer
+     * @param coupsRestants le nouveau nombre de coups restant à jouer
+     */
     public void setCoupsRestants(int coupsRestants) {
         this.coupsRestants = coupsRestants;
     }
 
+    /**
+     * permet de savoir si on a fini la partie ou non
+     * @return true si la partie est fini sinon retourne false
+     */
     public boolean isFinPartie() {
         return finPartie;
     }
 
+    /**
+     * remplace la cases par une nouvelle cases c
+     * @param cases la case qui est remplacer
+     * @param c la nouvelle case
+     */
     public void setCase(Case cases[][], Case c){
         cases[c.getLigne()][c.getColonne()] = c;
     }
