@@ -43,13 +43,14 @@
 
 \fancyhead[LE,RO]{\textit{M1if - UCBL 2019-2020}}% efface le contenu de l'en-tete
 %\fancyfoot{}% efface le contenu du pied de page
-\fancyfoot[R,RO]{\textit{Rapport de POM de Pierre-Henri Chupin et Solomon Maria}}%Rapport deTER de
+%\fancyfoot[R,RO]{\textit{Rapport de POM de Pierre-Henri Chupin et Solomon Maria}}%Rapport deTER de
 
 
-\fancyhf{} % Start with clearing everything in the header and footer
+%\fancyhf{} % Start with clearing everything in the header and footer
 % Set the right side of the footer to be the page number
-\fancyfoot[R]{\thepage}
-
+%\fancyfoot[R]{\thepage}
+\lhead{M1if - UCBL}
+\rhead{2019-2020}
 % Redefine plain style, which is used for titlepage and chapter beginnings
 % From https://tex.stackexchange.com/a/30230/828
 \fancypagestyle{plain}{%
@@ -103,13 +104,13 @@ La création d’un jeu de dames géré par une intelligence artificielle distri
 \section{Etat de l'art}
 L’Intelligence artificielle distribuée(IAD)
 L’IAD s’intéresse à des comportements intelligents qui sont le produit de l’activité coopérative de plusieurs agents. Elle représente une branche de l'intelligence artificielle dont le but est de créer des systèmes décentralisés, généralement multi-agents, capables de coopérer et de se coordonner. L'intelligence artificielle distribuée étudie les techniques permettant à des agents autonomes d'interagir, et les moyens de répartir un problème entre ces agents. Ces techniques sont inspirées des structures complexes de certaines sociétés d'insectes comme les fourmis. Un des domaines d'application de l'IAD est la coordination d'agents autonomes mobiles (comme les avions ou les voitures) - qui doivent apprendre à s'éviter tout en ayant des contraintes de trajet et de temps. 
-Dans un système multi-agents géré par ce type d’IA on va trouver une communauté d’agents autonomes qui évoluent dans un environnement commun, selon des modes parfois complexes de coopération, de concurrence voire de conflit, pour aboutir à un objectif global. Un agent est un logiciel ou un matériel capable de capter de l’information, d’agir " rationnellement " en fonction des données récupérées et de déclencher une action pour optimiser ses chances de succès.
-Un agent peut réagir en temps réel et en fonction de l’environnement. Lorsque cela s’avère nécessaire par la complexité de l’objectif à atteindre, les agents intelligents sont intégrés dans des systèmes multi-agents constitués d’une somme d’agents autonomes, mais reliés et collaborant entre eux. 
+Dans un système multi-agents géré par ce type d’IA on va trouver une communauté d’agents autonomes qui évoluent dans un environnement commun, selon des modes parfois complexes de coopération, de concurrence voire de conflit, pour aboutir à un objectif global. Un agent est un logiciel ou un matériel capable de capter de l’information, d’agir " rationnellement " en fonction des données récupérées et de déclencher une action pour optimiser ses chances de succès \cite{agents}. 
+Un agent peut réagir en temps réel et en fonction de l’environnement. Lorsque cela s’avère nécessaire par la complexité de l’objectif à atteindre, les agents intelligents sont intégrés dans des systèmes multi-agents constitués d’une somme d’agents autonomes, mais reliés et collaborant entre eux.  \cite{population}
 Ces agents constituent un système complexe qui comprend une intelligence que l’on pourrait qualifier de collective.
 
 \subsection{L’Intelligence artificielle centralisée}
 
-L’approche classique de l’Intelligence Artificielle(IA) suppose une fondation sur une centralisation de l’expertise au sein d’un seul et unique système expert. De plus, tous les entités qui font partie de ce système central en sont dépendantes, tous les décisions et les stratégies sont pris par le système.
+L’approche classique de l’Intelligence Artificielle(IA) suppose une fondation sur une centralisation de l’expertise au sein d’un seul et unique système expert. De plus, tous les entités qui font partie de ce système central en sont dépendantes, tous les décisions et les stratégies sont pris par le système. \cite{IA}
 
 \subsection{L’algorithme MinMax}
 
@@ -117,7 +118,7 @@ Minimax est un algorithme décisionnel , généralement utilisé dans un jeu au 
 L'objectif est de trouver le meilleur coup pour le joueur. Pour ce faire, nous pouvons simplement choisir le nœud avec le meilleur score d’évaluation. Pour rendre le processus plus intelligent, nous pouvons également regarder de l’avant et évaluer les mouvements de nos adversaires potentiels.
 Pour chaque mouvement, nous pouvons prévoir autant de mouvements que notre puissance de calcul le permet. L’algorithme suppose que l’adversaire joue de manière optimale.
 Techniquement, nous commençons par le nœud racine et choisissons le meilleur nœud possible. Nous évaluons les nœuds en fonction de leurs scores d’évaluation. Dans notre cas, la fonction d’évaluation peut attribuer des scores aux seuls nœuds de résultats (feuilles).
-Par conséquent, nous atteignons récursivement les feuilles avec des scores et propageons les scores en arrière.
+Par conséquent, nous atteignons récursivement les feuilles avec des scores et propageons les scores en arrière. \cite{Minimax}
 
 
 \section{Implementation}
@@ -275,5 +276,8 @@ Ce projet à permis de mieux voir la puissance et l'importance des modélisation
 \label{paysage}
 }
 \end{figure}
+
+\bibliographystyle{unsrt}
+\bibliography{bibli}
 
 \end{document}
