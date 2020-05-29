@@ -24,6 +24,7 @@ public class Plateau {
     private Case[][] casesTmp;
     private Case[][] casestampon;
     private Piece pieceTmp1;
+    private int nbCoupsSansPrise;
     private int nbRisque;
     private int coupsRestants;
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
@@ -1112,11 +1113,17 @@ public class Plateau {
         //if (!Jeu.paused.get()){
         coupObligatoire(piecesPrioritaires, joueur, 1);
         filtrerLesPieces(piecesPrioritaires, piecesRestantes);
+        if(coupsRestants == pionsABouger){
+            nbCoupsSansPrise++;
+        }
+        else{
+            nbCoupsSansPrise = 0;
+        }
         choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, true, pionsABouger);
         filtrerLesPieces(piecesPrioritaires, piecesRestantes);
         choixPieceADeplacer(piecesPrioritaires, piecesRestantes, joueur, false, pionsABouger);
 
-        if (coupsRestants == pionsABouger) {
+        if (coupsRestants == pionsABouger || nbCoupsSansPrise == 30) {
             finPartie = true;
         }
         // }
