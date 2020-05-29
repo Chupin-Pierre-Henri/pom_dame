@@ -11,10 +11,13 @@
 %%% Examples of Article customizations
 % These packages are optional, depending whether you want the features they provide.
 % See the LaTeX Companion or other references for full information.
+\usepackage{float}
 
 %%% PAGE DIMENSIONS
+
 \usepackage{geometry} % to change the page dimensions
-\geometry{a4paper} % or letterpaper (US) or a5paper or....
+\geometry{margin=2cm,margin=2cm}
+%\geometry{a4paper} % or letterpaper (US) or a5paper or....
 % \geometry{margin=2in} % for example, change the margins to 2 inches all round
 % \geometry{landscape} % set up the page for landscape
 %   read geometry.pdf for detailed page layout information
@@ -35,13 +38,34 @@
 \usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
 \pagestyle{fancy} % options: empty , plain , fancy
 \renewcommand{\headrulewidth}{0pt} % customise the layout...
-\lhead{}\chead{}\rhead{}
-\lfoot{}\cfoot{\thepage}\rfoot{}
+%\lhead{}\chead{}\rhead{}
+%\lfoot{}\cfoot{\thepage}\rfoot{}
+
+\fancyhead[LE,RO]{\textit{M1if - UCBL 2019-2020}}% efface le contenu de l'en-tete
+%\fancyfoot{}% efface le contenu du pied de page
+\fancyfoot[R,RO]{\textit{Rapport de POM de Pierre-Henri Chupin et Solomon Maria}}%Rapport deTER de
+
+
+\fancyhf{} % Start with clearing everything in the header and footer
+% Set the right side of the footer to be the page number
+\fancyfoot[R]{\thepage}
+
+% Redefine plain style, which is used for titlepage and chapter beginnings
+% From https://tex.stackexchange.com/a/30230/828
+\fancypagestyle{plain}{%
+    \renewcommand{\headrulewidth}{0pt}%
+    \fancyhf{}%
+    \fancyfoot[L]{\thepage}%
+}
+
+
+
 
 %%% SECTION TITLE APPEARANCE
 \usepackage{sectsty}
 \allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
 % (This matches ConTeXt defaults)
+
 
 %%% ToC (table of contents) APPEARANCE
 \usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
@@ -133,50 +157,55 @@ Nous avons opté pour une conceptualisation distribuée et décentralisée où 2
 
 Chaque pion a la possibilité de choisir une action à faire qu’il va prendre en fonction de son propre environnement. De plus, il va mesurer tous ses possibilités et va exécuter le coup le plus avantageux pour lui. 
 
-\begin{figure}
-\caption{le pion a devant lui 2 cases libres.}
-\label{fig_sim}
-\centering
-\subfloat[Dans ce cas on fait un tirage aléatoire pour choisir une case.]
-{
-\includegraphics[width=2in]{1Q}
-\label{paysage}
-}
-\end{figure}
+Dans la Figure 1, le pion a devant lui 2 cases libres. Dans ce cas on fait un tirage aléatoire pour choisir une case. 
+Dans la Figure 2, l’un des pions marrons a toujours le choix entre les 2 cases libres sauf que cette fois on va mettre en priorité de ne pas rester coincé. Donc ce pion va abandonner la stratégie initiale aléatoire et ne vas pas risquer de se faire bloqué en choisissant l’autre case libre sans ce risque.
 
-\begin{figure}
-\caption{ l’un des pions marrons a toujours le choix entre les 2 cases libres sauf que cette fois on va mettre en priorité de ne pas rester coincé.}
-\label{fig_sim}
-\centering
-\subfloat[Donc ce pion va abandonner la stratégie initiale aléatoire et ne vas pas risquer de se faire bloqué en choisissant l’autre case libre sans ce risque.]
-{
-\includegraphics[width=2in]{2}
-\label{paysage}
-}
-\end{figure}
+Dans la Figure 3 le pion a un choix égale de prise. On va opter dans ce cas pour une prise dans la direction du territoir de l’ennemi.
 
-\begin{figure}
-\caption{le pion à un choix égale de prise.}
-\label{fig_sim}
-\centering
-\subfloat[ On va opter dans ce cas pour une prise dans la direction du territoir de l’ennemi.]
-{
-\includegraphics[width=2in]{3}
-\label{paysage}
-}
+La Figure 4 représente le cas où le pion peut prendre 1 ou 2 ennemis. Il va choisir le coup le plus avantageux sans tenir compte de la direction d'avancement comme dans la Figure 3. 
+ 
+\begin{figure}[!htb]
+\minipage{0.22\textwidth}
+	\caption{  }
+	\label{fig_sim}
+	{
+	\includegraphics[width=\linewidth]{1Q}
+	\label{paysage}
+	}
+\endminipage\hfill
+\minipage{0.22\textwidth}
+	%\caption{ l’un des pions marrons a toujours le choix entre les 2 cases libres sauf que cette fois on va mettre en priorité de ne pas rester coincé.}
+	\caption{  }
+	\label{fig_sim}
+	%\centering
+	%\subfloat[Donc ce pion va abandonner la stratégie initiale aléatoire et ne vas pas risquer de se faire bloqué en choisissant l’autre case libre sans ce risque.]
+	{
+	\includegraphics[width=\linewidth]{2}
+	\label{paysage}
+	}
+\endminipage\hfill
+\minipage{0.22\textwidth}
+	%\caption{le pion à un choix égale de prise.}
+	\caption{  }
+	\label{fig_sim}
+	%\centering
+	%\subfloat[ On va opter dans ce cas pour une prise dans la direction du territoir de l’ennemi.]
+	{
+	\includegraphics[width=\linewidth]{3}
+	\label{paysage}
+	}
+\endminipage\hfill
+\minipage{0.22\textwidth}
+	\caption{  }
+	\label{fig_sim}
+	%\centering
+	%\subfloat[ Il va choisir le coup le plus avantageux sans tenir compte de la direction d'avancement comme dans la Figure 3.]
+	{
+	\includegraphics[width=\linewidth]{4}
+	\label{paysage}
+	}
+\endminipage
 \end{figure}
-
-\begin{figure}
-\caption{représente le cas où le pion peut prendre 1 ou 2 ennemis.}
-\label{fig_sim}
-\centering
-\subfloat[ Il va choisir le coup le plus avantageux sans tenir compte de la direction d'avancement comme dans la Figure 3.]
-{
-\includegraphics[width=2in]{3}
-\label{paysage}
-}
-\end{figure}
-
 
 \subsection{Calcul du coup risqué pour une pièce}
 
@@ -246,7 +275,5 @@ Ce projet à permis de mieux voir la puissance et l'importance des modélisation
 \label{paysage}
 }
 \end{figure}
-
-
 
 \end{document}
