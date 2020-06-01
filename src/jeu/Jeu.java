@@ -7,7 +7,7 @@ import plateau.Plateau;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Jeu {
-    public static AtomicBoolean paused = new AtomicBoolean(false);
+    public static AtomicBoolean paused = new AtomicBoolean(true);
     final public int pionsAbouger = 3;
     public Plateau damier;
     public DamierFrame frame;
